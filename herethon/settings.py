@@ -62,8 +62,14 @@ INSTALLED_APPS = [
     'pwa',
     'Accountapp',
     'rest_framework',
-    'django_extensions'
+    'django_extensions',
+    'Homeapp'
 ]
+AUTH_USER_MODEL = 'Accountapp.Member'
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -147,3 +153,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_REDIRECT_URL = reverse_lazy('countapp:index')
+
+# 로그인 URL
+LOGIN_URL = 'accountapp:login'
+
+# 로그인 후 리디렉션 URL
+LOGIN_REDIRECT_URL = 'countapp:index'
+
+# 로그아웃 후 리디렉션 URL
+LOGOUT_REDIRECT_URL = 'accountapp:login'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

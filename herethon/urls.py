@@ -20,10 +20,12 @@ from rest_framework.routers import DefaultRouter
 from Countapp.views import WalkDataViewSet
 
 router = DefaultRouter()
-router.register(r'walkdata', WalkDataViewSet)
+router.register(r'walkdata', WalkDataViewSet, basename='walkdata')
 
 urlpatterns = [
+    #path('/',include('Homeapp.urls')),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('', include('Countapp.urls')),
+    path('count/', include('Countapp.urls')),
+    path('account/', include('Accountapp.urls'))
 ]

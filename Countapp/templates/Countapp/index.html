@@ -5,7 +5,9 @@
     <meta name="csrf-token" content="{{ csrf_token }}">
 </head>
 <body>
-    <h1>Walking Distance Tracker</h1>
+    <h1>오늘의 취향 질문</h1>
+    <p>최근 가장 재미있게 본 책의 장르는?</p>
+    <p>{{ username }}님의 기록은 다음과 같습니다:</p>
     <p id="distance">Distance: 0 m</p>
     <p id="elapsedTime">Elapsed Time: 0 s</p>
     <button onclick="startTracking()">Start Tracking</button>
@@ -13,9 +15,9 @@
 
     <script>
         let startTime = null;
-        let totalElapsedTime = 0;
+        let totalElapsedTime = {{ total_elapsed_time }};
         let lastAcceleration = { x: 0, y: 0, z: 0 };
-        let distance = 0;
+        let distance = {{ total_distance }};
         let tracking = false;
         let intervalID = null;
 
@@ -76,12 +78,12 @@
             const delta = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
             // Adjust sensitivity by changing the threshold value
-            if (delta > 5) {
+            if (delta > 10) {
                 const currentTime = new Date().getTime();
                 const timeElapsed = (currentTime - (startTime || currentTime)) / 1000;
 
                 const speed = delta / timeElapsed;
-                distance += speed * timeElapsed;
+                distance += speed * timeElapsed / 100;
 
                 document.getElementById('distance').innerText = `Distance: ${distance.toFixed(2)} m`;
 
@@ -114,6 +116,7 @@
                     'X-CSRFToken': csrftoken
                 },
                 body: JSON.stringify({
+                    user: {{ request.user.id }},
                     distance: distance,
                     msec: totalElapsedTime,
                 })
