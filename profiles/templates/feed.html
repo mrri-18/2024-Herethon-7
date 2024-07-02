@@ -1,0 +1,17 @@
+<!-- profiles/templates/profiles/feed.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feed</title>
+</head>
+<body>
+    <h1>Feed</h1>
+    {% for post in posts %}
+        <div>
+            <h2>{{ post.user.username }}</h2>
+            <img src="{{ post.image.url }}" alt="Post Image">
+            <p>{{ post.caption }}</p>
+        </div>
+    {% endfor %}
+</body>
+</html>
