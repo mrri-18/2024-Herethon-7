@@ -3,46 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        #preview {
-            max-width: 100%;
-            height: auto;
-            margin-top: 10px;
-        }
-    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/walk_archive.css' %}">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+    <title>Beewalk</title>
 </head>
 <body>
-    <div class="container">
-        <h1>오늘의 나다움 질문</h1>
-        <h1>선호하는 음악 장르는 무엇인가요?</h1>
-        <form method="post" enctype="multipart/form-data" action="{% url 'homeapp:home' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <div>
-                <label for="id_archive_image">아카이브 이미지:</label>
-            </div>
-            <img id="preview" src="#" alt="Image preview" style="display: none;">
-            <button type="submit">저장</button>
-        </form>
+    <div class="question">
+        <div class="title">오늘의 나다움 질문</div>
+        <div class="content"><!--질문-->선호하는 음악 장르는</br> 무엇인가요?</div>
     </div>
+    <form method="post" enctype="multipart/form-data" action="{% url 'homeapp:home' %}">
+        {% csrf_token %}
+        <div class="photo">
+            <div class="icon"><img src="{% static 'img/upload icon.png'%}"></div>
+            <div class="text">사진을 등록해주세요.</div>
+            <div class="upload" onclick="document.getElementById('id_archive_image').click();">이미지 등록하기</div>
+            {{ form.archive_image }}
+            <img id="preview" src="#" alt="Image preview" style="display: none;">
+        </div>
+            {{ form.description }}
+        <div class="check">
+            <img id="c_img" src="{% static 'img/check_disabled.png' %}" alt="Check Icon" onclick="submitForm()">
+            <button type="submit" id="submit_button">
+            </button>
+        </img>
+    </form>
+
     <script>
         function previewImage(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
-
-            reader.onload = function() {
+        
+            reader.onload = function () {
                 const preview = document.getElementById('preview');
                 preview.src = reader.result;
                 preview.style.display = 'block';
+                
+                // Check form after image is loaded
+                checkForm();
             };
-
+        
             if (file) {
                 reader.readAsDataURL(file);
             }
         }
-
-        // 파일 입력 요소에 onchange 이벤트 리스너 추가
+        
+        function checkForm() {
+            const preview = document.getElementById('preview');
+            const descriptionInput = document.getElementById('id_description');
+            const descriptionValue = descriptionInput.value.trim(); 
+        
+            if (preview.style.display === 'block' && descriptionValue !== '') {
+                document.getElementById('c_img').src = "{% static 'img/check_enabled.png' %}";
+                document.getElementById('c_link').href = "{% url 'homeapp:home' %}"; 
+            } else {
+                document.getElementById('c_img').src = "{% static 'img/check_disabled.png' %}";
+                document.getElementById('c_link').href = ""; 
+            }
+        }function submitForm() {
+            const preview = document.getElementById('preview');
+            if (preview.style.display === 'block') {
+                document.getElementById('submit_button').click();
+            } else {
+                alert('이미지를 먼저 선택해주세요.');
+            }
+        }
+        
         document.getElementById('id_archive_image').addEventListener('change', previewImage);
-    </script>
+        document.getElementById('id_description').addEventListener('input', checkForm);
+
+        document.getElementById('c_img').addEventListener('click', function(event) {
+            event.preventDefault(); 
+            submitForm(); 
+        });
+            </script>
 </body>
 </html>
