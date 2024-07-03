@@ -63,7 +63,8 @@ INSTALLED_APPS = [
     'Accountapp',
     'rest_framework',
     'django_extensions',
-    'Homeapp'
+    'Homeapp',
+    'sslserver',
 ]
 AUTH_USER_MODEL = 'Accountapp.Member'
 AUTHENTICATION_BACKENDS = [
@@ -166,5 +167,13 @@ LOGOUT_REDIRECT_URL = 'accountapp:login'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+SSL_KEY_PATH = os.path.join(BASE_DIR, 'certs', 'key.pem')
+SSL_CERT_PATH = os.path.join(BASE_DIR, 'certs', 'cert.pem')
+
+# Example of HTTPS settings
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_HOST = 'Beewalk.com'
 
 # python manage.py runserver_plus 0.0.0.0:8000 --cert-file "C:\Program Files\OpenSSL-Win64\bin\cert.pem" --key-file "C:\Program Files\OpenSSL-Win64\bin\key.pem"
