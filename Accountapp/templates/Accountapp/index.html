@@ -68,7 +68,6 @@
                 clearInterval(intervalID);
                 totalElapsedTime += (new Date().getTime() - startTime);
                 startTime = null;
-                saveRecord();
                 console.log("Tracking paused");
             }
         }
@@ -109,7 +108,7 @@
                 const timeElapsed = (currentTime - (startTime || currentTime)) / 1000;
 
                 const speed = delta / timeElapsed;
-                distance += speed * timeElapsed / 1000;
+                distance += speed * timeElapsed / 100;
 
                 document.getElementById('distance').innerText = `Distance: ${distance.toFixed(2)} m`;
 

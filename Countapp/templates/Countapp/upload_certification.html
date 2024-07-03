@@ -2,20 +2,27 @@
 <html>
 <head>
     <title>Upload Certification</title>
+    <style>
+        #preview {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Upload Certification</h1>
-    <p>Record ID: {{ record.id }}</p>
-    <p>Distance: {{ record.distance }} km</p>
-    <p id="elapsedTime">Elapsed Time: </p> <!-- 걸은 시간을 출력할 부분 -->
+    <h1>석촌호수 둘레길만큼 걸었어요!</h1>
+    <p>{{ record.distance|floatformat:2 }} km</p>
+    <p id="elapsedTime"></p> <!-- 걸은 시간을 출력할 부분 -->
+    <p>오늘의 나다움 질문에 답변하기 위해 먼저 걷기 인증을 해주세요!</p>
 
     <!-- 인증샷 업로드 폼 -->
-    <form method="post" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" action="{% url 'countapp:upload_walk_certification' record.id %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Upload Certification</button>
+        <button type="submit">업로드</button>
     </form>
-
+    <img id="preview" src="#" alt="Image preview" style="display: none;">
     <!-- 걸은 시간 출력 스크립트 -->
     <script>
         const hours = {{ hours }};
@@ -30,6 +37,24 @@
         // 걸은 시간을 출력
         document.getElementById('elapsedTime').innerText += formatTime(hours, minutes, seconds);
 
+        // 이미지 미리보기 함수
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function() {
+                const preview = document.getElementById('preview');
+                preview.src = reader.result;
+                preview.style.display = 'block';
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // 파일 입력 요소에 onchange 이벤트 리스너 추가
+        document.getElementById('id_walk_image').addEventListener('change', previewImage);
     </script>
 </body>
 </html>

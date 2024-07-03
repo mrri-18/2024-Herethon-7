@@ -30,7 +30,7 @@ def login_view(request):
             if user is not None:
                 print("success")
                 login(request, user)
-                return redirect('countapp:index')
+                return redirect('homeapp:home')
             else:
                 form.add_error(None, '잘못된 이메일 또는 비밀번호를 입력했습니다.')
     return render(request, 'Accountapp/login.html', {'form': form})

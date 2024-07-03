@@ -22,9 +22,7 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
-# Set the project base directory
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+BASE_DIR = Path(__file__).resolve().parent.parent
 # Take environment variables from .env file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
@@ -34,11 +32,6 @@ DEBUG = env('DEBUG')
 # Raises Django's ImproperlyConfigured
 # exception if SECRET_KEY not in os.environ
 SECRET_KEY = env('SECRET_KEY')
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -46,8 +39,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '0.0.0.0','127.0.0.1', '192.168.0.121','192.168.45.1']
-CSRF_TRUSTED_ORIGINS = ['https://192.168.0.121:8000','https://192.168.45.1:8000']
+ALLOWED_HOSTS = ['*', '0.0.0.0', '127.0.0.1', '192.168.0.121', '192.168.45.1']
+CSRF_TRUSTED_ORIGINS = ['https://192.168.0.121:8000', 'https://192.168.45.1:8000']
 
 # Application definition
 
@@ -63,13 +56,13 @@ INSTALLED_APPS = [
     'Accountapp',
     'rest_framework',
     'django_extensions',
-    'Homeapp'
+    'Homeapp',
+    'Historyapp',
 ]
 AUTH_USER_MODEL = 'Accountapp.Member'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -101,7 +94,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'herethon.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -111,7 +103,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -131,38 +122,39 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE =  'Asia/Seoul'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
-USE_TZ = True
-
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_REDIRECT_URL = reverse_lazy('countapp:index')
+LOGIN_REDIRECT_URL = reverse_lazy('homeapp:home')
 
 # 로그인 URL
 LOGIN_URL = 'accountapp:login'
 
 # 로그인 후 리디렉션 URL
-LOGIN_REDIRECT_URL = 'countapp:index'
+LOGIN_REDIRECT_URL = 'homeapp:home'
 
 # 로그아웃 후 리디렉션 URL
 LOGOUT_REDIRECT_URL = 'accountapp:login'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# python manage.py runserver_plus 0.0.0.0:8000 --cert-file "C:\Program Files\OpenSSL-Win64\bin\cert.pem" --key-file "C:\Program Files\OpenSSL-Win64\bin\key.pem"

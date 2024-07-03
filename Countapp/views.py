@@ -1,12 +1,15 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
-from .forms import CertificationForm
+from .forms import CertificationForm, ArchiveForm
 from .models import Record
 from .serializers import WalkDataSerializer
+
 
 class WalkDataViewSet(viewsets.ModelViewSet):
     serializer_class = WalkDataSerializer
@@ -17,27 +20,23 @@ class WalkDataViewSet(viewsets.ModelViewSet):
 
 @login_required
 def index(request):
-    today = timezone.now().date()
-    today_records = Record.objects.filter(user=request.user, create_at__date=today)
+    user = request.user
+    # 사용자의 가장 최근 Record 객체 가져오기
+    latest_record = Record.objects.filter(user=user).order_by('-create_at').first()
 
-    total_distance = sum(record.distance for record in today_records)
-    total_elapsed_time = sum(record.msec for record in today_records)
+    if latest_record:
+        record_id = latest_record.id
+    else:
+        record_id = None  # 기록이 없을 경우를 대비
 
     return render(request, 'Countapp/index.html', {
         'username': request.user.username,
-        'total_distance': total_distance,
-        'total_elapsed_time': total_elapsed_time,
+        'record_id': record_id
     })
 
 
-def stop_tracking(request):
-    # 걷기 기록을 종료하고 인증샷 업로드 페이지로 리디렉션
-    latest_record = Record.objects.latest('id')
-    return redirect('countapp:upload_certification', record_id=latest_record.id)
-
-
-def upload_certification(request, record_id):
-    record = get_object_or_404(Record, pk=record_id)
+def upload_walk_certification(request,record_id):
+    record = get_object_or_404(Record, pk=(record_id+1))
 
     if request.method == 'POST':
         form = CertificationForm(request.POST, request.FILES)
@@ -45,8 +44,11 @@ def upload_certification(request, record_id):
             # Save CertificationForm and associate it with Record
             certification = form.save(commit=False)
             certification.record = record
+            certification.user = request.user
             certification.save()
-            return redirect('countapp:upload_success', record_id=record_id)
+            return redirect('countapp:upload_archive', record_id=record_id)
+        else:
+            print(form.errors)
     else:
         form = CertificationForm()
 
@@ -65,7 +67,23 @@ def upload_certification(request, record_id):
         'minutes': minutes,
         'seconds': seconds,
     })
-
+@login_required
+def upload_archive(request, record_id):
+    record = get_object_or_404(Record, pk=(record_id+1))
+    if request.method == 'POST':
+        form = ArchiveForm(request.POST, request.FILES)
+        if form.is_valid():
+            certification = form.save(commit=False)
+            certification.record=record
+            certification.user = request.user
+            certification.save()
+            return redirect('homeapp:home')
+    else:
+        form = ArchiveForm()
+    return render(request, 'Countapp/upload_archive.html', {
+        'form': form,
+        'record': record
+    })
 
 def format_time(total_seconds):
     hours = total_seconds // 3600
@@ -73,7 +91,3 @@ def format_time(total_seconds):
     seconds = total_seconds % 60
     return f"{int(hours)}:{int(minutes)}:{int(seconds)}"
 
-
-def upload_success(request, record_id):
-    record = get_object_or_404(Record, pk=record_id)
-    return render(request, 'Countapp/upload_success.html', {'record': record})
