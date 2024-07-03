@@ -8,4 +8,4 @@ from . import views
 
 urlpatterns=[
     path('',views.record_list, name='record_list')
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

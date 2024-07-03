@@ -15,7 +15,7 @@ class Record(models.Model):
 
 class Certification(models.Model):
     walk_image = models.ImageField(upload_to='certifications/')
-    archive_image = models.ImageField(upload_to='archives/')
+    archive_image = models.ImageField(upload_to='archives/',blank=True, null=True)
     description = models.TextField()
     record = models.ForeignKey(Record, on_delete=models.CASCADE)
     user = models.ForeignKey(Member, on_delete=models.CASCADE)

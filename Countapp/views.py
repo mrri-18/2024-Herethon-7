@@ -21,22 +21,19 @@ class WalkDataViewSet(viewsets.ModelViewSet):
 @login_required
 def index(request):
     user = request.user
+    late_record = Record.objects.all().order_by('-create_at').first()
     # 사용자의 가장 최근 Record 객체 가져오기
-    latest_record = Record.objects.filter(user=user).order_by('-create_at').first()
-
-    if latest_record:
-        record_id = latest_record.id
-    else:
-        record_id = None  # 기록이 없을 경우를 대비
+    #latest_record = Record.objects.filter(user=user).order_by('-create_at').first()
+    record_id = late_record.id  # 기록이 없을 경우를 대비
 
     return render(request, 'Countapp/index.html', {
         'username': request.user.username,
-        'record_id': record_id
+        'record_id': (record_id+1)
     })
 
 
 def upload_walk_certification(request,record_id):
-    record = get_object_or_404(Record, pk=(record_id+1))
+    record = get_object_or_404(Record, pk=record_id)
 
     if request.method == 'POST':
         form = CertificationForm(request.POST, request.FILES)
@@ -69,7 +66,7 @@ def upload_walk_certification(request,record_id):
     })
 @login_required
 def upload_archive(request, record_id):
-    record = get_object_or_404(Record, pk=(record_id+1))
+    record = get_object_or_404(Record, pk=record_id)
     if request.method == 'POST':
         form = ArchiveForm(request.POST, request.FILES)
         if form.is_valid():

@@ -8,13 +8,19 @@ from .forms import SignUpForm, LoginForm
 
 
 def signup(request):
-    form = SignUpForm(request.POST or None)
     if request.method == 'POST':
+        form = SignUpForm(request.POST, request.FILES)
+        checkpwd = request.POST.get('checkpwd')
+
         if form.is_valid():
-            user = form.save(commit=False)
-            user.password = make_password(form.cleaned_data['password'])
-            user.save()
-            return redirect('accountapp:login')  # 회원가입 후 로그인 페이지로 리디렉션
+            password = form.cleaned_data.get('password')
+            if password != checkpwd:
+                form.add_error('password', '비밀번호가 일치하지 않습니다.')
+            else:
+                user = form.save(commit=False)
+                user.password = make_password(password)
+                user.save()
+                return redirect('accountapp:login')
     else:
         form = SignUpForm()
 

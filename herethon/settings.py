@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'Homeapp',
     'Historyapp',
+    'profiles'
 ]
 AUTH_USER_MODEL = 'Accountapp.Member'
 AUTHENTICATION_BACKENDS = [

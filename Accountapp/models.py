@@ -26,6 +26,7 @@ class Member(AbstractBaseUser):
     email = models.EmailField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(blank=True, null=True)
+    profile_img=models.ImageField(upload_to='profiles_img/', default=None)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
