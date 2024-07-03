@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+    <title>Beewalk</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="photo">
+            <img class="upload" src="{% static 'img/plus.png' %}" onclick="document.getElementById('profile').click();" style="cursor: pointer">
+            <input type="file" id="profile" style="display: none" accept="image/*" onchange="previewImage(event)">
+            <img id="photo_img" src="">
+        </div>
+        
+        <div class="email">
+            <div class="email_text">
+                <p>{{ form.email.label }}</p>
+                <p id="email_check_success"></p>
+            </div>
+            <div class="email_input">
+                {{ form.email }}
+                <button type="button" id="email_check">중복확인</button>
+            </div>
+        </div>
+        
+        <div class="password">
+            <div class="password_text">
+                <p>{{ form.password.label }}</p>
+                <p id="password_check_success"></p>
+            </div>
+            {{ form.password }}
+            <input type="password" id="password_check" name="password_check" placeholder="비밀번호를 한번 더 입력해주세요">
+        </div>
+        
+        <div class="username">
+            <div class="username_text">
+                <p>{{ form.username.label }}</p>
+                <p id="username_check_success"></p>
+            </div>
+            <div class="username_input">
+                {{ form.username }}
+                <button type="button" id="username_check">중복확인</button>
+            </div>
+        </div>
+        
+        <button type="submit" id="submit_button">회원가입 하기</button>
+    </form>
+</body>
+<script src="{% static 'js/signup.js' %}"></script>
+</html>

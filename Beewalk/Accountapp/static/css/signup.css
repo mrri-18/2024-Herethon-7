@@ -1,0 +1,126 @@
+body {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    font-family: "Pretendard Variable", Pretendard, -apple-system,
+        BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
+        "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+p {
+    font-size: 16px;
+    font-weight: 300;
+    color: #ffffff;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 126px 16px 16px 16px;
+}
+
+.photo {
+    width: 90px;
+    height: 90px;
+    display: flex;
+    padding: 20px;
+    background-color: #f7f7f1;
+    border-radius: 50%;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 13px;
+}
+
+#photo_img {
+    width: 90px;
+    height: 90px;
+    display: none;
+    border-radius: 50%;
+    position: absolute;
+}
+
+input {
+    width: 251px;
+    height: 59px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    border-width: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+input[type="password"] {
+    width: 361px;
+}
+
+.email,
+.password,
+.username {
+    display: flex;
+    flex-direction: column;
+    margin: 8px 0;
+}
+
+.email_text,
+.password_text,
+.username_text {
+    display: flex;
+    flex-direction: row;
+}
+
+.email_text p:last-child,
+.password_text p:last-child,
+.username_text p:last-child {
+    margin-left: 10px;
+}
+
+#password_check {
+    margin-top: 10px;
+}
+
+button[type="submit"] {
+    width: 361px;
+    height: 64px;
+    border-radius: 20px;
+    border-width: 0;
+    padding: 20px 126px;
+    box-sizing: border-box;
+    margin-top: 102px;
+    color: #ffffff;
+}
+
+button[type="button"] {
+    width: 100px;
+    height: 59px;
+    font-size: 16px;
+    font-weight: 300;
+    margin-left: 10px;
+    border-radius: 30px;
+    box-sizing: border-box;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    background-color: rgba(247, 247, 241, 0.1);
+}
+
+.success {
+    color: #14ae70;
+}
+.error {
+    color: #ff7b62;
+}
+#submit_button {
+    background-color: #b1b1b1;
+    cursor: not-allowed;
+}
+#submit_button.enabled {
+    background-color: #ff7b62;
+    cursor: pointer;
+}
