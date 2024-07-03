@@ -68,7 +68,6 @@
                 clearInterval(intervalID);
                 totalElapsedTime += (new Date().getTime() - startTime);
                 startTime = null;
-                saveRecord();
                 console.log("Tracking paused");
             }
         }
@@ -84,7 +83,6 @@
         }
 
         function completeWalking() {
-            totalElapsedTime += (new Date().getTime() - startTime);
             saveRecord();
             // 걷기 완료 폼을 제출하여 다른 페이지로 이동
             console.log("Tracking stopped");
