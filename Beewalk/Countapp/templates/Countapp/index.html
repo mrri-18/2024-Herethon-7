@@ -21,21 +21,19 @@
         <div class="t_content" id="elapsedTime" style="font-size:48px">00:00:00</div>
     </div>
     <div class="walk">
-        <div class="title" id="distance">석촌호수( 0 km)만큼 걸었어요</div>
+        <div class="title" id="distance">부르즈칼리파( 0 m)만큼 걸었어요</div>
         <div class="w_content">
             <div class="w_progress" id="w_progressr" style="width: 0"></div>
         </div>
         <div class="w_text">
-            <p id="many_distance"> 0 km </p>
-            <p id="landmark"><!--물체-->월드컵대교(1.9km)</p>
+            <p id="many_distance">다음 목표까지 0 m </p>
+            <p id="landmark"><!--물체-->부르즈칼리파(828m)</p>
         </div>
     </div>
     <div class="button">
-        <div class="stop">
             <img src="{% static 'img/stop.png'%}" onclick="toggleTracking()" id="trackImage">
                 <button id="trackButton" style="display:none"></button>
             </img>
-        </div>
    
     {% if record_id %}
         <!-- 숨겨진 폼: Stop Tracking 버튼을 눌렀을 때 사용 -->
@@ -58,9 +56,7 @@
         let distance = 0;
         let tracking = false;
         let intervalID = null;
-        const fixedDistance = 1900;
-        
-        window.onload = function() {
+           window.onload = function() {
             startTracking();
         };
         async function startTracking() {
@@ -107,21 +103,16 @@
         }
 
         function toggleTracking() {
-            const trackImage = document.getElementById('trackImage');
-            
             if (tracking) {
                 pauseTracking();
-                trackImage.src = "{% static 'img/start.png' %}";
+                document.getElementById('trackButton').innerText = 'Start Tracking';
             } else {
                 startTracking();
-                trackImage.src = "{% static 'img/stop.png' %}";
+                document.getElementById('trackButton').innerText = 'Pause Tracking';
             }
-            
-            tracking = !tracking; // Toggle tracking state
         }
-        
-        
-        function sleep(ms) {
+
+         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
@@ -145,6 +136,7 @@
 
             const delta = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
+            // Adjust sensitivity by changing the threshold value
             if (delta > 10) {
                 const currentTime = new Date().getTime();
                 const timeElapsed = (currentTime - (startTime || currentTime)) / 1000;
@@ -152,13 +144,9 @@
                 const speed = delta / timeElapsed;
                 distance += speed * timeElapsed / 1000;
 
-                // 미터를 킬로미터로 변환하여 표시
-                const kmDistance = distance / 1000;
-                document.getElementById('distance').innerText = `석촌호수 (${kmDistance.toFixed(2)} km) 만큼 걸었어요`;
-
-                // 남은 거리 계산
-                const remainingDistance = (fixedDistance - distance) / 1000;
-                document.getElementById('many_distance').innerText = `${remainingDistance.toFixed(2)} km`;
+                document.getElementById('distance').innerText = `부르즈칼리파 (${distance.toFixed(2)} m) 만큼 걸었어요`;
+                document.getElementById('many_distance').innerText = `다음 목표까지 ${(828 - distance).toFixed(2)} m`;
+                fillProgressBar(distance);
 
                 lastAcceleration = {
                     x: acceleration.x,
@@ -168,24 +156,31 @@
             }
         }
 
+        function fillProgressBar(distance) {
+            let progressBar = document.getElementById("w_progressr");
+            let maxWidth = document.querySelector(".w_content").clientWidth; 
+            let width = (distance / 828) * maxWidth; 
+
+            width = Math.min(width, maxWidth);
+
+            progressBar.style.width = width + "px";
+        }
+
         function updateTime() {
             if (tracking) {
                 const currentTime = new Date().getTime();
                 const elapsedTime = totalElapsedTime + (currentTime - startTime);
         
-                // 시간을 시, 분, 초로 나누어 계산
                 const hours = Math.floor(elapsedTime / 3600000);
                 const minutes = Math.floor((elapsedTime % 3600000) / 60000);
                 const seconds = Math.floor((elapsedTime % 60000) / 1000);
-        
-                // 시, 분, 초를 두 자리 숫자로 포맷팅
+
                 const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         
                 document.getElementById('elapsedTime').innerText = formattedTime;
                 console.log(`Elapsed Time: ${formattedTime}`);
             }
         }
-        
 
         function saveRecord() {
             const csrftoken = getCookie('csrftoken');
@@ -232,6 +227,7 @@
             }
             return cookieValue;
         }
+
     </script>
 
 </html>
