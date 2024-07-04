@@ -66,7 +66,8 @@ INSTALLED_APPS = [
     'Homeapp',
     'sslserver',
     'profiles',
-    'Historyapp'
+    'Historyapp',
+    'musicarchive'
 ]
 AUTH_USER_MODEL = 'Accountapp.Member'
 AUTHENTICATION_BACKENDS = [
