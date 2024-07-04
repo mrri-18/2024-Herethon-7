@@ -50,5 +50,65 @@
         <button type="submit" id="submit_button">회원가입 하기</button>
     </form>
 </body>
-<script src="{% static 'js/signup.js' %}"></script>
+<script>
+    function previewImage(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function () {
+            const preview = document.getElementById("photo_img");
+            preview.src = reader.result;
+            preview.style.display = "block";
+        };
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+// HTML 요소들을 가져오기
+const emailInput = document.querySelector('input[name="email"]');
+const passwordInput = document.querySelector('input[name="password"]');
+const checkpwdInput = document.querySelector('input[name="checkpwd"]');
+const usernameInput = document.querySelector('input[name="username"]');
+const submitButton = document.querySelector('#submit_button');
+
+// 모든 입력 필드가 입력될 때의 상태를 추적할 변수
+let isEmailFilled = false;
+let isPasswordFilled = false;
+let isCheckpwdFilled = false;
+let isUsernameFilled = false;
+
+// 각 입력 필드의 입력을 감지하고 상태 업데이트
+emailInput.addEventListener('input', function() {
+    isEmailFilled = emailInput.value.trim() !== ''; // 내용이 비어 있지 않으면 true
+    toggleButton();
+});
+
+passwordInput.addEventListener('input', function() {
+    isPasswordFilled = passwordInput.value.trim() !== '';
+    toggleButton();
+});
+
+checkpwdInput.addEventListener('input', function() {
+    isCheckpwdFilled = checkpwdInput.value.trim() !== '';
+    toggleButton();
+});
+
+usernameInput.addEventListener('input', function() {
+    isUsernameFilled = usernameInput.value.trim() !== '';
+    toggleButton();
+});
+
+// 버튼 상태를 변경하는 함수
+function toggleButton() {
+    // 모든 입력 필드가 채워져 있는지 확인
+    const allFieldsFilled = isEmailFilled && isPasswordFilled && isCheckpwdFilled && isUsernameFilled;
+    
+    // 버튼의 클래스를 조작하여 스타일을 변경
+    if (allFieldsFilled) {
+        submitButton.classList.add('enabled');
+    } else {
+        submitButton.classList.remove('enabled');
+    }
+}
+
+</script>
 </html>
