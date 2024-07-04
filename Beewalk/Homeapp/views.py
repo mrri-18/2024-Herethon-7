@@ -10,7 +10,7 @@ from Accountapp.models import Member, Follow
 from .forms import FollowForm
 
 
-#@login_required
+@login_required
 def home(request):
     user = request.user
     print(user.profile_img)
