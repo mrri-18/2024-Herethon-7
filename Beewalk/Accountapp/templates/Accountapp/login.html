@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
     <title>Beewalk</title>
 </head>
 <body>
-    <form method="post" id="form" action="{% url 'homeapp:home' %}">
+    <form method="post" enctype="multipart/form-data" id="loginForm">
         {% csrf_token %}
         {{ form.email.errors }}
         <p>{{ form.email.label }}</p>
@@ -20,10 +19,11 @@
         <p>{{ form.password.label }}</p>
         {{ form.password }}
         <br>
-        <button type="submit">로그인</button>
+        <button type="submit" id="submit_button">로그인</button>
     </form>
 
     <div class="line"></div>
     <a href="{% url 'accountapp:signup' %}">회원가입</a>
+    <script src="{% static 'js/login.js'%}"></script>
 </body>
 </html>
