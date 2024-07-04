@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
     <title>Beewalk</title>
 </head>
 <body>
-    <form method="post">
+    <form method="post" id="form" action="{% url 'homeapp:home' %}">
         {% csrf_token %}
         {{ form.email.errors }}
         <p>{{ form.email.label }}</p>
