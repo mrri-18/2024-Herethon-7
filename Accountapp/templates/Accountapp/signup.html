@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up</title>
+</head>
+<body>
+
+    <h2>Sign Up</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p>
+            <label for="checkpwd">비밀번호 확인:</label>
+            <input type="password" name="checkpwd" id="checkpwd">
+        </p>
+        {% if form.errors %}
+            <div>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <p style="color: red;">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <button type="submit">Sign Up</button>
+    </form>
+</body>
+</html>

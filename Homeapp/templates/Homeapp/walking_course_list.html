@@ -1,0 +1,27 @@
+<!-- templates/homeapp/walking_course_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walking Course</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>걷기 좋은 코스 추천</h1>
+        </header>
+        <section class="walking-course-section">
+            <ul>
+                {% for course in courses %}
+                    <li>
+                          <a href="{% url 'homeapp:walking_course_detail' course.pk %}">
+                            <h2>{{ course.title }}</h2>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

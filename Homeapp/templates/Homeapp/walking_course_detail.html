@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ course.title }}</title>
+</head>
+<body>
+    <h1>{{ course.title }}</h1>
+    {% if course.image %}
+        <img src="{{ course.image.url }}" alt="{{ course.title }}">
+    {% endif %}
+    <p>{{ course.created_at }}</p>
+    <div>{{ course.content }}</div>
+    <a href="{% url 'homeapp:walking_course_list' %}">Back to list</a>
+</body>
+</html>
