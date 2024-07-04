@@ -1,0 +1,94 @@
+<!-- templates/homeapp/record_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record List</title>
+    <style>
+        .container {
+            width: 90%;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .total-distance {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .record-list {
+            list-style: none;
+            padding: 0;
+        }
+        .record-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            position: relative;
+        }
+        .record-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .record-item p {
+            margin: 0;
+        }
+        .record-item .description {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>히스토리</h1>
+            <form method="get" action="{% url 'Historyapp:record_list' %}">
+                <label for="month-select">월 선택:</label>
+                <select id="month-select" name="month">
+                        <option value=1 {% if i == month %}selected{% endif %}>1월</option>
+                    <option value=2 {% if i == month %}selected{% endif %}>2월</option>
+                    <option value=3 {% if i == month %}selected{% endif %}>3월</option>
+                    <option value=4 {% if i == month %}selected{% endif %}>4월</option>
+                    <option value=5 {% if i == month %}selected{% endif %}>5월</option>
+                    <option value=6 {% if i == month %}selected{% endif %}>6월</option>
+                    <option value=7 {% if i == month %}selected{% endif %}>7월</option>
+                    <option value=8 {% if i == month %}selected{% endif %}>8월</option>
+                    <option value=9 {% if i == month %}selected{% endif %}>9월</option>
+                    <option value=10 {% if i == month %}selected{% endif %}>10월</option>
+                    <option value=11 {% if i == month %}selected{% endif %}>11월</option>
+                    <option value=12 {% if i == month %}selected{% endif %}>12월</option>
+                </select>
+                <label for="year-select">년 선택:</label>
+                <select id="year-select" name="year">
+                        <option value=2024 {% if i == year %}selected{% endif %}>2024년</option>
+                </select>
+                <button type="submit">확인</button>
+            </form>
+        </header>
+        <section class="total-distance">
+            총 {{ total_distance|floatformat:1 }} km
+        </section>
+        <section class="record-section">
+            <ul class="record-list">
+               {% for record in records %}
+                    <li class="record-item">
+                        <p>석촌호수 둘레길만큼 걸었어요!</p>
+                        <p>{{ record.date|date:"Y.m.d" }} - {{ record.total_distance|floatformat:1 }}km</p>
+                        <p>시간: {{ record.total_time|floatformat:1 }}초</p>
+                         {% if record.certification.walk_image %}
+                                <img src="{{ record.certification.walk_image.url }}" alt="Certification Image">
+                            {% else %}
+                                <p>이미지가 없습니다.</p>
+                            {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

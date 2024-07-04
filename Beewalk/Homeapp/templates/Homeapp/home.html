@@ -10,7 +10,13 @@
     <div class="container">
         <header>
             <h1>안녕하세요, {{ user.username }}님</h1>
+             {% if user.profile_img %}
+                <img src="{{ user.profile_img.url }}" alt="{{ user.username }}의 프로필 이미지" width="50">
+            {% else %}
+                <p>프로필 이미지가 없습니다.</p>
+            {% endif %}
             <p>오늘도 함께 걸어볼까요?</p>
+            <a href="{% url 'profile:edit_profile' %}" >편집</a>
         </header>
         <form action="{% url 'countapp:index' %}" method="get">
             <button class="walk-button" >Walk</button>
@@ -21,36 +27,33 @@
         <section class="calendar-section">
             <h2>{{ year }}.{{ month }}</h2>
             <div class="calendar">
-                <div class="header">일</div>
-                <div class="header">월</div>
-                <div class="header">화</div>
-                <div class="header">수</div>
-                <div class="header">목</div>
-                <div class="header">금</div>
-                <div class="header">토</div>
-                 {% for _ in empty_cells %}
-                    <div></div>
-                {% endfor %}
-
-                <!-- 날짜 표시 -->
-                {% for day in days_in_month %}
-                    <div class="day">
-                        {{ day }}
-                        {% if day in records_by_date %}
-                            <div class="record">{{ records_by_date[day] }} km</div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
             </div>
         </section>
         <section class="info-section">
-            <div class="info-box">운동 정보</div>
-            <div class="info-box">걷기 좋은 코스 추천</div>
+            <a href="{% url 'homeapp:exercise_info_list' %}" class="info-box">운동 정보</a>
+            <a href="{% url 'homeapp:walking_course_list' %}" class="info-box">걷기 좋은 코스 추천</a>
         </section>
-        <section class="recommend-section">
-            <p>이 사용자는 어때요?</p>
-            <div class="recommend-box">meow</div>
-        </section>
+          <section class="recommend-section">
+       <p>이 사용자는 어때요?</p>
+            <div class="recommend-box">
+                {% if random_user %}
+                     {% if random_user.profile_img %}
+                        <img src="{{ random_user.profile_img.url }}" alt="{{ random_user.username }}의 프로필 이미지" width="50">
+                    {% else %}
+                        <p>프로필 이미지가 없습니다.</p>
+                    {% endif %}
+                    <p>{{ random_user.username }}</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                        <input type="hidden" name="user_id" value="{{ random_user.id }}">
+                        <button type="submit" class="follow-button">Follow</button>
+                    </form>
+                {% else %}
+                    <p>No users to recommend</p>
+                {% endif %}
+        </div>
+    </section>
         <footer>
             <!-- 하단 네비게이션 바 -->
         </footer>

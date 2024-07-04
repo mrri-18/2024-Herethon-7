@@ -27,5 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('count/', include('Countapp.urls')),
-    path('account/', include('Accountapp.urls'))
+    path('account/', include('Accountapp.urls')),
+    path('history/',include('Historyapp.urls')),
+    path('profile/',include('profiles.urls'))
 ]

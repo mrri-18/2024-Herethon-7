@@ -28,7 +28,9 @@
         let distance = 0;
         let tracking = false;
         let intervalID = null;
-
+           window.onload = function() {
+            startTracking();
+        };
         async function startTracking() {
             if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
                 try {
@@ -68,7 +70,6 @@
                 clearInterval(intervalID);
                 totalElapsedTime += (new Date().getTime() - startTime);
                 startTime = null;
-                saveRecord();
                 console.log("Tracking paused");
             }
         }
@@ -82,11 +83,14 @@
                 document.getElementById('trackButton').innerText = 'Pause Tracking';
             }
         }
+         function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
 
-        function completeWalking() {
-            totalElapsedTime += (new Date().getTime() - startTime);
-            saveRecord();
-            // 걷기 완료 폼을 제출하여 다른 페이지로 이동
+        async function completeWalking() {
+            pauseTracking();
+            await saveRecord();
+            await sleep(1000);  // 대기
             console.log("Tracking stopped");
             document.getElementById('walkForm').submit();
         }
@@ -109,7 +113,7 @@
                 const timeElapsed = (currentTime - (startTime || currentTime)) / 1000;
 
                 const speed = delta / timeElapsed;
-                distance += speed * timeElapsed / 100;
+                distance += speed * timeElapsed / 1000;
 
                 document.getElementById('distance').innerText = `Distance: ${distance.toFixed(2)} m`;
 

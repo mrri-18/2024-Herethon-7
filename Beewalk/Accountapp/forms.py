@@ -6,8 +6,7 @@ class SignUpForm(forms.ModelForm):
 
     class Meta:
         model = Member
-        fields = ['username', 'email', 'password']
-        
+        fields = ['username', 'email', 'password','profile_img']
 class LoginForm(forms.Form):
-    email = forms.CharField(label='이메일')
-    password = forms.CharField(label='비밀번호', widget=forms.PasswordInput)
+    email = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
