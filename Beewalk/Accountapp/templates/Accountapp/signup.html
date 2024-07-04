@@ -9,7 +9,7 @@
     <title>Beewalk</title>
 </head>
 <body>
-    <form method="post" enctype="multipart/form-data" id="signupForm">
+    <form method="post" enctype="multipart/form-data" id="signupForm" action="{% url 'accountapp:login' %}"> 
         {% csrf_token %}
         
         <div class="photo">
