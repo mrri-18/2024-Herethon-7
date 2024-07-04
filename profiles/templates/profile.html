@@ -1,0 +1,25 @@
+<!-- profiles/templates/profiles/profile.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ user.username }}'s Profile</title>
+</head>
+<body>
+    <div>
+        <img src="{{ profile.profile_picture.url }}" alt="Profile Picture">
+        <h1>{{ user.username }}</h1>
+        <p>{{ profile.bio }}</p>
+        <p>Followers: {{ followers }}</p>
+        <p>Following: {{ following }}</p>
+    </div>
+    <div>
+        <h2>Posts</h2>
+        {% for post in posts %}
+            <div>
+                <img src="{{ post.image.url }}" alt="Post Image">
+                <p>{{ post.caption }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
