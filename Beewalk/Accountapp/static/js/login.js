@@ -1,37 +1,53 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // 로그인 폼 제출(submit) 이벤트 처리
-    document.querySelector('#login-form').addEventListener('submit', function(event) {
-        event.preventDefault();  // 폼의 기본 제출 동작 방지
+    var form = document.getElementsByTagName('form')[0];
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevent default form submission
 
-        // 폼 데이터 가져오기
-        var email = document.querySelector('#id_email').value;
-        var password = document.querySelector('#id_password').value;
+        // Get form data
+        var formData = new FormData(form);
 
-        // AJAX를 통한 서버 요청
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/account/login/', true);  // 로그인 뷰의 URL 경로로 변경 필요
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');  // CSRF 토큰 추가
-
-        // AJAX 요청 완료 시 처리
-        xhr.onload = function() {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                var response = JSON.parse(xhr.responseText);
-                if (response.success) {
-                    // 로그인 성공 시 리다이렉트
-                    window.location.href = '/';  // Homeapp/templates/home.html 경로로 변경
-                } else {
-                    // 로그인 실패 시 에러 메시지 출력
-                    alert(response.error_message);
-                }
-            } else {
-                // 서버 오류 처리
-                alert('서버 오류가 발생했습니다.');
+        // Perform Ajax request to submit form data
+        fetch('/account/login/', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')  // Include CSRF token for POST requests
             }
-        };
-
-        // 폼 데이터 전송
-        var data = 'email=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password);
-        xhr.send(data);
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();  // Parse response as JSON
+            } else {
+                throw new Error('서버에서 오류가 발생했습니다.');  // Throw error for non-OK response
+            }
+        })
+        .then(data => {
+            if (data && data.redirect) {
+                console.log('Redirecting to:', data.redirect);
+                window.location.href = data.redirect;  // Redirect to the URL provided by the server
+            } else {
+                throw new Error('서버에서 유효한 리다이렉트 URL을 반환하지 않았습니다.');  // Throw error if redirect URL is not provided
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error.message);
+            alert('로그인 과정에서 오류가 발생했습니다.');
+        });
     });
 });
+
+// Function to get CSRF token from cookies
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}

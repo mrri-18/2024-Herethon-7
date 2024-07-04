@@ -46,7 +46,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '0.0.0.0','127.0.0.1', '192.168.0.121','192.168.45.1']
+ALLOWED_HOSTS = ['*', '0.0.0.0','127.0.0.1', '192.168.0.121','192.168.45.1','192.168.219.104']
 CSRF_TRUSTED_ORIGINS = ['https://192.168.0.121:8000','https://192.168.45.1:8000']
 
 # Application definition
@@ -150,7 +150,7 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

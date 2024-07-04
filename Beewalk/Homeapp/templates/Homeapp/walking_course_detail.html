@@ -2,15 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ course.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/info_walk.css' %}">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+    <title>Beewalk</title>
 </head>
 <body>
-    <h1>{{ course.title }}</h1>
+    <div class="back">
+        <a id="back" href="{% url 'homeapp:walking_course_list' %}"><img src="{% static 'img/back.png' %}"/></a>
+    </div>
+    <div class="title">{{ course.title }}</div>
+    <div class="date">{{ course.created_at|date:"Y.m.d" }}</div>
     {% if course.image %}
-        <img src="{{ course.image.url }}" alt="{{ course.title }}">
+    <div class="img"><img src=src="{{ course.image.url }}" alt="{{ course.title }}" /></div>
     {% endif %}
-    <p>{{ course.created_at }}</p>
-    <div>{{ course.content }}</div>
-    <a href="{% url 'homeapp:walking_course_list' %}">Back to list</a>
+    <div class="content">{{ course.content }}</div>
 </body>
 </html>

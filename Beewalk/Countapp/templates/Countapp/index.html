@@ -1,26 +1,56 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Walking Distance Tracker</title>
-    <meta name="csrf-token" content="{{ csrf_token }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/walk.css' %}">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+    <title>Beewalk</title>
 </head>
 <body>
-    <h1>오늘의 나다움 질문</h1>
-    <p>선호하는 음악 장르는 무엇인가요?</p>
-    <p id="distance">Distance: 0 m</p>
-    <p id="elapsedTime">Elapsed Time: 0 s</p>
-    <button id="trackButton" onclick="toggleTracking()">Start Tracking</button>
-
+    <div class="question">
+        <div class="title">오늘의 나다움 질문</div>
+        <div class="q_content">
+            <!--질문-->선호하는 음악 장르는 무엇인가요?
+        </div>
+    </div>
+    <div class="timer">
+        <div class="title">스톱워치</div>
+        <div class="t_content" id="elapsedTime" style="font-size:48px">00:00:00</div>
+    </div>
+    <div class="walk">
+        <div class="title" id="distance">석촌호수( 0 km)만큼 걸었어요</div>
+        <div class="w_content">
+            <div class="w_progress" id="w_progressr" style="width: 0"></div>
+        </div>
+        <div class="w_text">
+            <p id="many_distance"> 0 km </p>
+            <p id="landmark"><!--물체-->월드컵대교(1.9km)</p>
+        </div>
+    </div>
+    <div class="button">
+        <div class="stop">
+            <img src="{% static 'img/stop.png'%}" onclick="toggleTracking()" id="trackImage">
+                <button id="trackButton" style="display:none"></button>
+            </img>
+        </div>
+   
     {% if record_id %}
         <!-- 숨겨진 폼: Stop Tracking 버튼을 눌렀을 때 사용 -->
         <form id="walkForm" action="{% url 'countapp:upload_walk_certification' record_id %}" method="get" style="display: none;">
         </form>
-        <button onclick="completeWalking()">걷기 완료</button>
+        <img src="{% static 'img/done.png'%}" onclick="completeWalking()" style="margin-left:10px">
+            <button style="display:none"></button>
+        </img>
+       
     {% else %}
         <p>기록이 없습니다. 기록을 추가해주세요.</p>
         <button onclick="alert('기록이 없습니다. 기록을 추가해주세요.');" disabled>걷기 완료</button>
     {% endif %}
-
+</div>
+</body>
     <script>
         let startTime = null;
         let totalElapsedTime = 0;
@@ -28,7 +58,9 @@
         let distance = 0;
         let tracking = false;
         let intervalID = null;
-           window.onload = function() {
+        const fixedDistance = 1900;
+        
+        window.onload = function() {
             startTracking();
         };
         async function startTracking() {
@@ -75,15 +107,21 @@
         }
 
         function toggleTracking() {
+            const trackImage = document.getElementById('trackImage');
+            
             if (tracking) {
                 pauseTracking();
-                document.getElementById('trackButton').innerText = 'Start Tracking';
+                trackImage.src = "{% static 'img/start.png' %}";
             } else {
                 startTracking();
-                document.getElementById('trackButton').innerText = 'Pause Tracking';
+                trackImage.src = "{% static 'img/stop.png' %}";
             }
+            
+            tracking = !tracking; // Toggle tracking state
         }
-         function sleep(ms) {
+        
+        
+        function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
@@ -107,7 +145,6 @@
 
             const delta = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
-            // Adjust sensitivity by changing the threshold value
             if (delta > 10) {
                 const currentTime = new Date().getTime();
                 const timeElapsed = (currentTime - (startTime || currentTime)) / 1000;
@@ -115,7 +152,13 @@
                 const speed = delta / timeElapsed;
                 distance += speed * timeElapsed / 1000;
 
-                document.getElementById('distance').innerText = `Distance: ${distance.toFixed(2)} m`;
+                // 미터를 킬로미터로 변환하여 표시
+                const kmDistance = distance / 1000;
+                document.getElementById('distance').innerText = `석촌호수 (${kmDistance.toFixed(2)} km) 만큼 걸었어요`;
+
+                // 남은 거리 계산
+                const remainingDistance = (fixedDistance - distance) / 1000;
+                document.getElementById('many_distance').innerText = `${remainingDistance.toFixed(2)} km`;
 
                 lastAcceleration = {
                     x: acceleration.x,
@@ -129,10 +172,20 @@
             if (tracking) {
                 const currentTime = new Date().getTime();
                 const elapsedTime = totalElapsedTime + (currentTime - startTime);
-                document.getElementById('elapsedTime').innerText = `Elapsed Time: ${(elapsedTime / 1000).toFixed(0)} s`;
-                console.log(`Elapsed Time: ${(elapsedTime / 1000).toFixed(0)} s`);
+        
+                // 시간을 시, 분, 초로 나누어 계산
+                const hours = Math.floor(elapsedTime / 3600000);
+                const minutes = Math.floor((elapsedTime % 3600000) / 60000);
+                const seconds = Math.floor((elapsedTime % 60000) / 1000);
+        
+                // 시, 분, 초를 두 자리 숫자로 포맷팅
+                const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        
+                document.getElementById('elapsedTime').innerText = formattedTime;
+                console.log(`Elapsed Time: ${formattedTime}`);
             }
         }
+        
 
         function saveRecord() {
             const csrftoken = getCookie('csrftoken');
@@ -180,5 +233,8 @@
             return cookieValue;
         }
     </script>
-</body>
+
 </html>
+
+
+
