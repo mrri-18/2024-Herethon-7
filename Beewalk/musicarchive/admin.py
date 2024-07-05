@@ -1,6 +1,6 @@
 # musicarchive/admin.py
 
 from django.contrib import admin
-from .models import MusicArchive
+from Countapp.models import Certification
 
-admin.site.register(MusicArchive)
+admin.site.register(Certification)
