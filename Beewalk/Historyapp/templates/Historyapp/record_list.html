@@ -116,7 +116,7 @@
 }
 .topMiddle {
   overflow-y: scroll;
-  height: 690px;
+  height: 844px;
 }
 .topMiddle::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera 브라우저용 */
@@ -159,7 +159,7 @@
   gap: 10px;
   padding: 10px;
   border-radius: 12px;
-  border: 1px solid #fff;
+  border: 1px solid #000000;
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
 
@@ -173,10 +173,6 @@
   z-index: 2;
   display: flex;
   position: relative;
-  border-radius: 12px;
-  background: linear-gradient(0deg, #383838 0%, #383838 100%),
-    rgba(179, 179, 179, 0.82);
-  background-blend-mode: color-dodge, normal;
   /* Material Blur */
   backdrop-filter: blur(25px);
   width: 80px; /* 조정 가능한 너비 */
@@ -204,7 +200,7 @@
 
 .input-container button {
   padding: 5px;
-  color: #fff;
+  color: #000000;
   border: none;
   background: none;
   outline: none;
@@ -304,34 +300,42 @@ li img {
   bottom: 30px;
   left: 10px;
 }
-.navigation {
-  height: 6rem;
-  position: fixed;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-}
+
 form{
     display: inline-flex;
 padding: 10px 15px;
 justify-content: center;
 align-items: center;
-border-radius: 12px;
-border: 1px solid #FFF;
-background: rgba(255, 255, 255, 0.10);
-color: #FFF;
+color: #000000;
 }
+
+/* Style for year select */
+#year-select {
+  /* Hide the default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* Use a custom bullet as a background image */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12"><text x="0" y="10" font-family="Arial" font-size="12">•</text></svg>');
+  background-repeat: no-repeat;
+  background-position: right center;
+  /* Position the bullet to the right */
+  padding-right: 20px; /* Adjust padding as needed */
+}
+
+
 #month-select, #year-select{
     border: none;
     background: none;
-    color: #FFF;
+    color: #000000;
+    font-size: 20px;
 }
 option{
     color:#000;
 }
 .calendar {
   width: 361px;
-  height: 370px;
+  height: 390px;
   background-color: #f7f7f1;
   border-radius: 20px;
   padding: 20px;
@@ -365,7 +369,7 @@ option{
 
 .cal_dates {
   width: 321px;
-  height: 228px;
+  height: 2px;
   justify-content: center;
   align-items: center;
   display: grid;
@@ -394,6 +398,10 @@ button[type=submit]{
  width: 50px;
  height: 30px
 }
+.top-title {
+  display:flex;
+  flex-direction: row;
+}
     </style>
   </head>
   <body>
@@ -414,28 +422,28 @@ button[type=submit]{
                 <form method="get" action="{% url 'Historyapp:record_list' %}">
                     <label id="yearSelect" for="year-select"></label>
                     <select id="year-select" name="year">
-                            <option value=2024 {% if i == year %}selected{% endif %}>2024년</option>
+                            <option value=2024 {% if i == year %}selected{% endif %}>2024</option>
                     </select>
+                    
                     <label id="monthSelect" for="month-select"></label>
                     <select id="month-select" name="month">
-                            <option value=1 {% if i == month %}selected{% endif %}>1월</option>
-                        <option value=2 {% if i == month %}selected{% endif %}>2월</option>
-                        <option value=3 {% if i == month %}selected{% endif %}>3월</option>
-                        <option value=4 {% if i == month %}selected{% endif %}>4월</option>
-                        <option value=5 {% if i == month %}selected{% endif %}>5월</option>
-                        <option value=6 {% if i == month %}selected{% endif %}>6월</option>
-                        <option value=7 {% if i == month %}selected{% endif %}>7월</option>
-                        <option value=8 {% if i == month %}selected{% endif %}>8월</option>
-                        <option value=9 {% if i == month %}selected{% endif %}>9월</option>
-                        <option value=10 {% if i == month %}selected{% endif %}>10월</option>
-                        <option value=11 {% if i == month %}selected{% endif %}>11월</option>
-                        <option value=12 {% if i == month %}selected{% endif %}>12월</option>
+                        <option value=1 {% if i == month %}selected{% endif %}>01</option>
+                        <option value=2 {% if i == month %}selected{% endif %}>02</option>
+                        <option value=3 {% if i == month %}selected{% endif %}>03</option>
+                        <option value=4 {% if i == month %}selected{% endif %}>04</option>
+                        <option value=5 {% if i == month %}selected{% endif %}>05</option>
+                        <option value=6 {% if i == month %}selected{% endif %}>06</option>
+                        <option value=7 {% if i == month %}selected{% endif %}>07</option>
+                        <option value=8 {% if i == month %}selected{% endif %}>08</option>
+                        <option value=9 {% if i == month %}selected{% endif %}>09</option>
+                        <option value=10 {% if i == month %}selected{% endif %}>10</option>
+                        <option value=11 {% if i == month %}selected{% endif %}>11</option>
+                        <option value=12 {% if i == month %}selected{% endif %}>12</option>
                     </select>
-
-                    <button id="submit" type="submit">확인</button>
                 </form>
             </div>
-              <div class="cal_mon">{{ year }}.{{ month }}</div>
+          </div>
+             
               <div class="cal_main">
                   <div class="cal_days">
                       <div class="day">일</div>
@@ -479,15 +487,16 @@ button[type=submit]{
   <script>
     const totalDistance = {{ total_distance }};
 
+    
     document.addEventListener("DOMContentLoaded", function () {
       const calendar = document.querySelector(".calendar");
-      const calMon = calendar.querySelector(".cal_mon");
       const calDates = calendar.querySelector(".cal_dates");
+  
+      const yearSelect = document.getElementById("year-select");
+      const monthSelect = document.getElementById("month-select");
   
       function renderCalendar(month, year) {
           calDates.innerHTML = "";
-  
-          calMon.innerText = `${year}.${String(month + 1).padStart(2, "0")}`;
   
           const firstDay = new Date(year, month, 1).getDay();
           const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -503,10 +512,6 @@ button[type=submit]{
               dateCell.classList.add("date");
               dateCell.innerText = day;
   
-              if (day === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) {
-                  dateCell.classList.add("today");
-              }
-  
               if (totalDistance > 0) {
                   if (totalDistance < 5000) {
                       dateCell.classList.add("polygon1");
@@ -521,23 +526,23 @@ button[type=submit]{
           }
       }
   
-      // 초기 로딩 시 현재 날짜로 달력 렌더링
-      const currentDate = new Date();
-      renderCalendar(currentDate.getMonth(), currentDate.getFullYear());
-  
-      // 확인 버튼 클릭 시 선택한 년도와 월로 달력을 업데이트
-      const submitButton = document.getElementById("submit");
-      submitButton.addEventListener("click", function (event) {
-          event.preventDefault(); // 폼 기본 동작 막기
-  
-          const yearSelect = document.getElementById("year-select");
-          const monthSelect = document.getElementById("month-select");
+      function updateCalendar() {
           const selectedYear = parseInt(yearSelect.value);
           const selectedMonth = parseInt(monthSelect.value) - 1; // JavaScript의 월은 0부터 시작하므로 1을 빼줌
-  
           renderCalendar(selectedMonth, selectedYear);
-      });
+      }
+  
+      // 초기 로딩 시 현재 날짜로 달력 렌더링
+      const currentDate = new Date();
+      yearSelect.value = currentDate.getFullYear();
+      monthSelect.value = currentDate.getMonth() + 1;
+      updateCalendar();
+  
+      // 선택된 년도와 월이 변경되면 달력을 업데이트
+      yearSelect.addEventListener("change", updateCalendar);
+      monthSelect.addEventListener("change", updateCalendar);
   });
+  
   
 </script>
   </html>
