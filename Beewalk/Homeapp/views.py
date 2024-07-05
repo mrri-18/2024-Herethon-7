@@ -14,10 +14,12 @@ from .forms import FollowForm
 def home(request):
     user = request.user
     print(user.profile_img)
-    end_date = timezone.now()
-    start_date = end_date - timedelta(days=30)
+    end_date = datetime.now()
 
-    # 30일 동안의 기록을 가져와서 합산
+    # 현재 날짜를 기준으로 해당 달의 첫째 날을 계산합니다.
+    start_date = datetime(end_date.year, end_date.month, 1)
+
+    # 1일부터 오늘까지의 기록을 가져와서 합산합니다.
     records = Record.objects.filter(user=user, create_at__range=(start_date, end_date))
     total_distance = records.aggregate(total_distance=Sum('distance'))['total_distance'] or 0
 

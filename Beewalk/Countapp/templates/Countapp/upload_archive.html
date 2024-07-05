@@ -19,41 +19,17 @@
             <div class="icon"><img src="{% static 'img/upload icon.png'%}"></div>
             <div class="text">사진을 등록해주세요.</div>
             <div class="upload" onclick="document.getElementById('id_archive_image').click();">이미지 등록하기</div>
-            {{ form.archive_image }}
+            <div style="display:none">{{ form.archive_image }}</div>
             <img id="preview" src="#" alt="Image preview" style="display: none;">
         </div>
-            {{ form.description }}
+        {{ form.description }}
         <div class="check">
             <img id="c_img" src="{% static 'img/check_disabled.png' %}" alt="Check Icon" onclick="submitForm()">
-            <button type="submit" id="submit_button">
+            <button type="submit" id="submit_button" style="display:none">
             </button>
         </img>
     </form>
-    <div class="navigation">
-        <div class="line"></div>
-        <div class="nav">
-            <div class="home">
-                <a href="{% *url* 'homeapp:home'%}"><img src="{% static 'img/home_pressed.png'%}" />
-                    <p class="nav_text">홈</p>
-                </a>
-            </div>
-            <div class="history">
-                <a href="{% *url* 'homeapp:home'%}"><img src="{% static 'img/history.png'%}" />
-                    <p class="nav_text">히스토리</p>
-                </a>
-            </div>
-            <div class="archive">
-                <a href="{% *url* 'homeapp:home'%}"><img src="{% static 'img/archive.png'%}" />
-                    <p class="nav_text">아카이브</p>
-                </a>
-            </div>
-            <div class="comunity">
-                <a href="{% *url* 'homeapp:home'%}"><img src="{% static 'img/community.png'%}" />
-                    <p class="nav_text">커뮤니티</p>
-                </a>
-            </div>
-        </div>
-    </div>
+    
 </body>
 
     <script>

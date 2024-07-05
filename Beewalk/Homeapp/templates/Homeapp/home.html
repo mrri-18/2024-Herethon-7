@@ -66,10 +66,14 @@
         </div>
         <div class="info">
             <div class="info_health">
-                <a href="{% url 'homeapp:exercise_info_list' %}"><img src="{% static 'img/info_health.png'%}" /></a>
+                <a href="{% url 'homeapp:exercise_info_list' %}" class="info-box"
+                    ><img src="{% static 'img/info_health.png'%}"
+                /></a>
             </div>
             <div class="info_walk">
-                <a href="{% url 'homeapp:walking_course_list' %}"><img src="{% static 'img/info_walk.png'%}" /></a>
+                <a href="{% url 'homeapp:walking_course_list' %}" class="info-box"
+                    ><img src="{% static 'img/info_walk.png'%}"
+                /></a>
             </div>
         </div>
         <div class="user">
@@ -109,7 +113,7 @@
         function fillProgressBar(distance) {
             let progressBar = document.getElementById("w_progressr");
             let maxWidth = document.querySelector(".w_content").clientWidth;
-            let width = (distance / 1900) * maxWidth;
+            let width = (distance * 1000 / 1900) * maxWidth;
 
             width = Math.min(width, maxWidth);
 
@@ -164,12 +168,6 @@
             const currentYear = today.getFullYear();
             const currentDate = today.getDate();
 
-            const distanceData = {
-                1: 3,  // 1일의 거리 데이터
-                5: 7,  // 5일의 거리 데이터
-                // 식으로 추가...
-            };
-
             function renderCalendar(month, year) {
                 calDates.innerHTML = "";
 
@@ -193,28 +191,6 @@
                 }
             }
             renderCalendar(currentMonth, currentYear);
-
-            function applyDistanceStyles(distanceData) {
-                const dateCells = calDates.querySelectorAll(".date");
-
-                dateCells.forEach(dateCell => {
-                    const day = parseInt(dateCell.innerText, 10);
-                    const distance = distanceData[day] || 0;
-
-                    if (day === currentDate) {
-                        dateCell.classList.add("today");
-                    }
-
-                    if (distance < 5) {
-                        dateCell.classList.add("polygon1");
-                    } else if (distance >= 5 && distance < 10) {
-                        dateCell.classList.add("polygon2");
-                    } else {
-                        dateCell.classList.add("polygon3");
-                    }
-                });
-            }
-            applyDistanceStyles(distanceData);
         });
     </script>
 </html>
