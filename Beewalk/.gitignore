@@ -6,3 +6,5 @@ config/secrets.json
 certs/*
 
 myvenv/*
+
+Beewalk/README.md
