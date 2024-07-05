@@ -6,6 +6,8 @@ config/secrets.json
 certs/*
 
 myvenv/*
+herethon/settings.crt
+herethon/settings.key
 
 walk_project2024-Herethon-7Beewalkcertscert.crt
 alk_project2024-Herethon-7Beewalkcertscert.key
