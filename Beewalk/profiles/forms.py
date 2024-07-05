@@ -13,7 +13,7 @@ class MemberUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Member
-        fields = ['username', 'email', 'profile_img']
+        fields = ['profile_img','username', 'email']
         widgets = {
             'profile_img': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
