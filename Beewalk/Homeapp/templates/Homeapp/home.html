@@ -102,6 +102,35 @@
                 {% endif %}
             </div>
         </div>
+        <div class="navigation">
+            <div class="line"></div>
+            <div class="nav">
+                <div class="home">
+                    <a href="{% url 'homeapp:home' %}"
+                        ><img src="{% static 'img/home_pressed.png'%}" />
+                        <p class="nav_text">홈</p>
+                    </a>
+                </div>
+                <div class="history">
+                    <a href="{% url 'Historyapp:record_list' %}"
+                        ><img src="{% static 'img/history.png'%}" />
+                        <p class="nav_text">히스토리</p>
+                    </a>
+                </div>
+                <div class="archive">
+                    <a href="{% url 'homeapp:home' %}"
+                        ><img src="{% static 'img/archive.png'%}" />
+                        <p class="nav_text">아카이브</p>
+                    </a>
+                </div>
+                <div class="comunity">
+                    <a href="{% url 'homeapp:home' %}"
+                        ><img src="{% static 'img/community.png'%}" />
+                        <p class="nav_text">커뮤니티</p>
+                    </a>
+                </div>
+            </div>
+        </div>
     </body>
     <script>
         document.getElementById("walkStartImage").addEventListener("click", function () {
@@ -191,12 +220,14 @@
                         dateCell.classList.add("today");
                     }
 
-                    if (totalDistance < 5000) {
-                        dateCell.classList.add("polygon1");
-                    } else if (totalDistance < 10000) {
-                        dateCell.classList.add("polygon2");
-                    } else {
-                        dateCell.classList.add("polygon3");
+                    if (totalDistance > 0) {
+                        if (totalDistance < 5000) {
+                            dateCell.classList.add("polygon1");
+                        } else if (totalDistance < 10000) {
+                            dateCell.classList.add("polygon2");
+                        } else {
+                            dateCell.classList.add("polygon3");
+                        }
                     }
 
                     calDates.appendChild(dateCell);
