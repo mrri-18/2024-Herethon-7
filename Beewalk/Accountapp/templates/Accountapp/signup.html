@@ -24,6 +24,7 @@
                     onclick="document.getElementById('profile').click();"
                     style="cursor: pointer"
                 />
+                <input type="file" id="profile" style="display: none" accept="image/*" onchange="previewImage(event)" />
                 <img id="photo_img" src="" />
             </div>
 
@@ -41,13 +42,7 @@
                     <p id="password_check_success"></p>
                 </div>
                 {{ form.password }}
-                <input
-                    type="password"
-                    name="checkpwd"
-                    id="checkpwd"
-                    style="margin-top: 10px"
-                    placeholder="비밀번호를 한 번 더 입력해주세요"
-                />
+                <input type="password" name="checkpwd" id="checkpwd" style="margin-top: 10px" />
             </div>
 
             <div class="username">
@@ -80,7 +75,6 @@
         const checkpwdInput = document.querySelector('input[name="checkpwd"]');
         const usernameInput = document.querySelector('input[name="username"]');
         const submitButton = document.querySelector("#submit_button");
-        const passwordCheckSuccess = document.querySelector("#password_check_success");
 
         // 모든 입력 필드가 입력될 때의 상태를 추적할 변수
         let isEmailFilled = false;
@@ -96,13 +90,11 @@
 
         passwordInput.addEventListener("input", function () {
             isPasswordFilled = passwordInput.value.trim() !== "";
-            checkPasswordMatch();
             toggleButton();
         });
 
         checkpwdInput.addEventListener("input", function () {
             isCheckpwdFilled = checkpwdInput.value.trim() !== "";
-            checkPasswordMatch();
             toggleButton();
         });
 
@@ -110,17 +102,6 @@
             isUsernameFilled = usernameInput.value.trim() !== "";
             toggleButton();
         });
-
-        // 비밀번호 일치 여부를 체크하는 함수
-        function checkPasswordMatch() {
-            const password = passwordInput.value.trim();
-            const checkpwd = checkpwdInput.value.trim();
-            if (password === checkpwd) {
-                passwordCheckSuccess.innerText = ""; // 일치하면 메시지를 초기화
-            } else {
-                passwordCheckSuccess.innerText = "🚫 비밀번호가 일치하지 않습니다";
-            }
-        }
 
         // 버튼 상태를 변경하는 함수
         function toggleButton() {

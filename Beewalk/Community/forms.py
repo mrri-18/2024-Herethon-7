@@ -1,10 +1,11 @@
+# community/forms.py
 from django import forms
 from Accountapp.models import Member
 
 class MemberUpdateForm(forms.ModelForm):
     class Meta:
         model = Member
-        fields = ['profile_img','username', 'email']
+        fields = ['username', 'email', 'profile_img']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
