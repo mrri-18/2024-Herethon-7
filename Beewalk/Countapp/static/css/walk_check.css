@@ -7,10 +7,9 @@ body {
     justify-content: center;
     align-items: center;
     background-color: black;
-    font-family: "Pretendard Variable", Pretendard, -apple-system,
-        BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
-        "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
-        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+        "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
 .answer {
@@ -99,9 +98,14 @@ body {
     align-items: center;
     justify-content: center;
 }
-.line {
+.navigation {
+    height: 6rem;
     position: fixed;
-    top: 751px;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
+.line {
     background-color: #606060;
     width: 393px;
     height: 1px;
@@ -109,9 +113,7 @@ body {
 
 .nav {
     width: 393px;
-    height: 100%;
-    position: fixed;
-    top: 752px;
+    height: 92px;
     background-color: #000000;
     display: flex;
     flex-direction: row;
@@ -141,10 +143,4 @@ a {
 
 .home p {
     color: #ffffff;
-}
-
-button {display: none;}
-
-input {
-    display: none;
 }

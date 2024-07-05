@@ -29,6 +29,32 @@
             </button>
         </img>
     </form>
+    <div class="navigation">
+        <div class="line"></div>
+        <div class="nav">
+            <div class="home">
+                <a href="{% *url* 'homeapp:home'%}"><img src="{% static 'img/home_pressed.png'%}" />
+                    <p class="nav_text">홈</p>
+                </a>
+            </div>
+            <div class="history">
+                <a href="{% *url* 'homeapp:home'%}"><img src="{% static 'img/history.png'%}" />
+                    <p class="nav_text">히스토리</p>
+                </a>
+            </div>
+            <div class="archive">
+                <a href="{% *url* 'homeapp:home'%}"><img src="{% static 'img/archive.png'%}" />
+                    <p class="nav_text">아카이브</p>
+                </a>
+            </div>
+            <div class="comunity">
+                <a href="{% *url* 'homeapp:home'%}"><img src="{% static 'img/community.png'%}" />
+                    <p class="nav_text">커뮤니티</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
 
     <script>
         function previewImage(event) {
@@ -77,6 +103,6 @@
             event.preventDefault(); 
             submitForm(); 
         });
-            </script>
-</body>
+    </script>
+
 </html>
