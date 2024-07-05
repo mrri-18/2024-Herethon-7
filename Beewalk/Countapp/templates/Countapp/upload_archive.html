@@ -22,14 +22,11 @@
             <div style="display:none">{{ form.archive_image }}</div>
             <img id="preview" src="#" alt="Image preview" style="display: none;">
         </div>
-        <div class="answer">
         {{ form.description }}
-        </div>
         <div class="check">
             <img id="c_img" src="{% static 'img/check_disabled.png' %}" alt="Check Icon" onclick="submitForm()">
             <button type="submit" id="submit_button" style="display:none">
             </button>
-        </div>
         </img>
     </form>
     
@@ -61,8 +58,10 @@
         
             if (preview.style.display === 'block' && descriptionValue !== '') {
                 document.getElementById('c_img').src = "{% static 'img/check_enabled.png' %}";
+                document.getElementById('c_link').href = "{% url 'homeapp:home' %}"; 
             } else {
                 document.getElementById('c_img').src = "{% static 'img/check_disabled.png' %}";
+                document.getElementById('c_link').href = ""; 
             }
         }function submitForm() {
             const preview = document.getElementById('preview');

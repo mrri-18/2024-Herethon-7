@@ -93,7 +93,7 @@
                     <div class="u_name">{{ random_user.username }}</div>
                 </div>
                 <form method="post">
-                    {% csrf_token %} {{ form.user_id }}
+                    {% csrf_token %} {{ form }}
                     <input type="hidden" name="user_id" value="{{ random_user.id }}" />
                     <button type="submit" class="u_follow">팔로우</button>
                 </form>
@@ -187,22 +187,9 @@
                     dateCell.classList.add("date");
                     dateCell.innerText = day;
 
-                    if (day === currentDate) {
-                        dateCell.classList.add("today");
-                    }
-
-                    if (totalDistance < 5000) {
-                        dateCell.classList.add("polygon1");
-                    } else if (totalDistance < 10000) {
-                        dateCell.classList.add("polygon2");
-                    } else {
-                        dateCell.classList.add("polygon3");
-                    }
-
                     calDates.appendChild(dateCell);
                 }
             }
-
             renderCalendar(currentMonth, currentYear);
         });
     </script>
