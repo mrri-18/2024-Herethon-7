@@ -51,22 +51,22 @@
         <div class="line"></div>
         <div class="nav">
             <div class="home">
-                <a href="{% *url* 'homeapp:home'%}"><img src="{% static 'img/home_pressed.png'%}" />
+                <a href="{% url 'homeapp:home' %}"><img src="{% static 'img/home_pressed.png'%}" />
                     <p class="nav_text">홈</p>
                 </a>
             </div>
             <div class="history">
-                <a href="{% *url* 'homeapp:home'%}"><img src="{% static 'img/history.png'%}" />
+                <a href="{% url 'Historyapp:record_list' %}"><img src="{% static 'img/history.png'%}" />
                     <p class="nav_text">히스토리</p>
                 </a>
             </div>
             <div class="archive">
-                <a href="{% *url* 'homeapp:home'%}"><img src="{% static 'img/archive.png'%}" />
+                <a href="{% url 'homeapp:home' %}"><img src="{% static 'img/archive.png'%}" />
                     <p class="nav_text">아카이브</p>
                 </a>
             </div>
             <div class="comunity">
-                <a href="{% *url* 'homeapp:home'%}"><img src="{% static 'img/community.png'%}" />
+                <a href="{% url 'homeapp:home' %}"><img src="{% static 'img/community.png'%}" />
                     <p class="nav_text">커뮤니티</p>
                 </a>
             </div>
@@ -127,16 +127,18 @@
         }
 
         function toggleTracking() {
-            if (tracking) {
-                pauseTracking();
-                document.getElementById('trackButton').innerText = 'Start Tracking';
-            } else {
-                startTracking();
-                document.getElementById('trackButton').innerText = 'Pause Tracking';
-            }
+            const trackImage = document.getElementById('trackImage');
+
+        if (tracking) {
+            pauseTracking();
+            trackImage.src = '{% static 'img/start.png' %}';
+        } else {
+            startTracking();
+            trackImage.src = '{% static 'img/stop.png' %}';
+        }
         }
 
-         function sleep(ms) {
+        function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 

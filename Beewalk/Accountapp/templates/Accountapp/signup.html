@@ -1,114 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
-    <title>Beewalk</title>
-</head>
-<body>
-    <form method="post" enctype="multipart/form-data" id="signupForm" action="{% url 'accountapp:login' %}"> 
-        {% csrf_token %}
-        
-        <div class="photo">
-            <img class="upload" src="{% static 'img/plus.png' %}" onclick="document.getElementById('profile').click();" style="cursor: pointer">
-            <input type="file" id="profile" style="display: none" accept="image/*" onchange="previewImage(event)">
-            <img id="photo_img" src="">
-        </div>
-        
-        <div class="email">
-            <div class="email_text">
-                <p>{{ form.email.label }}</p>
-                <p id="email_check_success"></p>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/signup.css' %}" />
+        <link
+            rel="stylesheet"
+            as="style"
+            crossorigin
+            href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"
+        />
+        <title>Beewalk</title>
+    </head>
+    <body>
+        <form method="post" enctype="multipart/form-data" id="signupForm" action="{% url 'accountapp:login' %}">
+            {% csrf_token %}
+
+            <div class="photo">
+                <img
+                    class="upload"
+                    src="{% static 'img/plus.png' %}"
+                    onclick="document.getElementById('profile').click();"
+                    style="cursor: pointer"
+                />
+                <input type="file" id="profile" style="display: none" onchange="previewImage(event)" />
+                <img id="photo_img" src="" />
             </div>
-            <div class="email_input">
-                {{ form.email }}
+
+            <div class="email">
+                <div class="email_text">
+                    <p>{{ form.email.label }}</p>
+                    <p id="email_check_success"></p>
+                </div>
+                <div class="email_input">{{ form.email }}</div>
             </div>
-        </div>
-        
-        <div class="password">
-            <div class="password_text">
-                <p>{{ form.password.label }}</p>
-                <p id="password_check_success"></p>
+
+            <div class="password">
+                <div class="password_text">
+                    <p>{{ form.password.label }}</p>
+                    <p id="password_check_success"></p>
+                </div>
+                {{ form.password }}
+                <input type="password" name="checkpwd" id="checkpwd" style="margin-top: 10px" />
             </div>
-            {{ form.password }}
-            <input type="password" name="checkpwd" id="checkpwd"style="margin-top: 10px" >
-        </div>
-        
-        <div class="username">
-            <div class="username_text">
-                <p>{{ form.username.label }}</p>
-                <p id="username_check_success"></p>
+
+            <div class="username">
+                <div class="username_text">
+                    <p>{{ form.username.label }}</p>
+                    <p id="username_check_success"></p>
+                </div>
+                <div class="username_input">{{ form.username }}</div>
             </div>
-            <div class="username_input">
-                {{ form.username }}
-            </div>
-        </div>
-        
-        <button type="submit" id="submit_button">회원가입 하기</button>
-    </form>
-</body>
-<script>
-    function previewImage(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function () {
-            const preview = document.getElementById("photo_img");
-            preview.src = reader.result;
-            preview.style.display = "block";
-        };
-        if (file) {
-            reader.readAsDataURL(file);
+
+            <button type="submit" id="submit_button">회원가입 하기</button>
+        </form>
+    </body>
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function () {
+                const preview = document.getElementById("photo_img");
+                preview.src = reader.result;
+                preview.style.display = "block";
+            };
+            if (file) {
+                reader.readAsDataURL(file);
+            }
         }
-    }
-// HTML 요소들을 가져오기
-const emailInput = document.querySelector('input[name="email"]');
-const passwordInput = document.querySelector('input[name="password"]');
-const checkpwdInput = document.querySelector('input[name="checkpwd"]');
-const usernameInput = document.querySelector('input[name="username"]');
-const submitButton = document.querySelector('#submit_button');
+        // HTML 요소들을 가져오기
+        const emailInput = document.querySelector('input[name="email"]');
+        const passwordInput = document.querySelector('input[name="password"]');
+        const checkpwdInput = document.querySelector('input[name="checkpwd"]');
+        const usernameInput = document.querySelector('input[name="username"]');
+        const submitButton = document.querySelector("#submit_button");
 
-// 모든 입력 필드가 입력될 때의 상태를 추적할 변수
-let isEmailFilled = false;
-let isPasswordFilled = false;
-let isCheckpwdFilled = false;
-let isUsernameFilled = false;
+        // 모든 입력 필드가 입력될 때의 상태를 추적할 변수
+        let isEmailFilled = false;
+        let isPasswordFilled = false;
+        let isCheckpwdFilled = false;
+        let isUsernameFilled = false;
 
-// 각 입력 필드의 입력을 감지하고 상태 업데이트
-emailInput.addEventListener('input', function() {
-    isEmailFilled = emailInput.value.trim() !== ''; // 내용이 비어 있지 않으면 true
-    toggleButton();
-});
+        // 각 입력 필드의 입력을 감지하고 상태 업데이트
+        emailInput.addEventListener("input", function () {
+            isEmailFilled = emailInput.value.trim() !== ""; // 내용이 비어 있지 않으면 true
+            toggleButton();
+        });
 
-passwordInput.addEventListener('input', function() {
-    isPasswordFilled = passwordInput.value.trim() !== '';
-    toggleButton();
-});
+        passwordInput.addEventListener("input", function () {
+            isPasswordFilled = passwordInput.value.trim() !== "";
+            toggleButton();
+        });
 
-checkpwdInput.addEventListener('input', function() {
-    isCheckpwdFilled = checkpwdInput.value.trim() !== '';
-    toggleButton();
-});
+        checkpwdInput.addEventListener("input", function () {
+            isCheckpwdFilled = checkpwdInput.value.trim() !== "";
+            toggleButton();
+        });
 
-usernameInput.addEventListener('input', function() {
-    isUsernameFilled = usernameInput.value.trim() !== '';
-    toggleButton();
-});
+        usernameInput.addEventListener("input", function () {
+            isUsernameFilled = usernameInput.value.trim() !== "";
+            toggleButton();
+        });
 
-// 버튼 상태를 변경하는 함수
-function toggleButton() {
-    // 모든 입력 필드가 채워져 있는지 확인
-    const allFieldsFilled = isEmailFilled && isPasswordFilled && isCheckpwdFilled && isUsernameFilled;
-    
-    // 버튼의 클래스를 조작하여 스타일을 변경
-    if (allFieldsFilled) {
-        submitButton.classList.add('enabled');
-    } else {
-        submitButton.classList.remove('enabled');
-    }
-}
+        // 버튼 상태를 변경하는 함수
+        function toggleButton() {
+            // 모든 입력 필드가 채워져 있는지 확인
+            const allFieldsFilled = isEmailFilled && isPasswordFilled && isCheckpwdFilled && isUsernameFilled;
 
-</script>
+            // 버튼의 클래스를 조작하여 스타일을 변경
+            if (allFieldsFilled) {
+                submitButton.classList.add("enabled");
+            } else {
+                submitButton.classList.remove("enabled");
+            }
+        }
+    </script>
 </html>
