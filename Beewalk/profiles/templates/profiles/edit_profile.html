@@ -1,52 +1,51 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>프로필 편집</title>
-    <style>
-        .preview-img {
-            display: block;
-            margin: 20px auto;
-            max-width: 100px;
-            max-height: 100px;
-            border-radius: 50%;
-        }
-    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>프로필 편집</h1>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            {% if request.user.profile_img %}
-                <div>
-                    <img id="current-profile-img" src="{{ request.user.profile_img.url }}" alt="Current Profile Image" class="preview-img"/>
-                </div>
-            {% endif %}
+    <h1>프로필 편집</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if request.user.profile_img %}
             <div>
-                <img id="preview-profile-img" src="#" alt="New Profile Image Preview" class="preview-img" style="display:none;"/>
+                <img id="current-profile-img" src="{{ request.user.profile_img.url }}" alt="Current Profile Image" class="preview-img"/>
             </div>
-            <button type="submit" class="btn btn-primary">저장하기</button>
-        </form>
-    </div>
+        {% endif %}
+        <div>
+            <img id="preview-profile-img" src="#" alt="New Profile Image Preview" class="preview-img" style="display:none;"/>
+        </div>
+
+        {{ form.profile_img.label_tag }}
+        {{ form.profile_img }}
+
+        {{ form.username.label_tag }}
+        {{ form.username }}
+
+        {{ form.email.label_tag }}
+        {{ form.email }}
+
+        <button type="submit" class="btn btn-primary">저장하기</button>
+    </form>
 
     <script>
-        document.querySelector('#id_profile_img').addEventListener('change', function(event) {
-            const [file] = event.target.files;
+        document.getElementById('id_profile_img').onchange = function (event) {
+            const file = event.target.files[0];
             if (file) {
-                const preview = document.querySelector('#preview-profile-img');
-                preview.src = URL.createObjectURL(file);
-                preview.style.display = 'block';
-
-                // Hide the current profile image if a new one is selected
-                const currentImg = document.querySelector('#current-profile-img');
-                if (currentImg) {
-                    currentImg.style.display = 'none';
-                }
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const previewImg = document.getElementById('preview-profile-img');
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
             }
-        });
+        };
     </script>
 </body>
 </html>
