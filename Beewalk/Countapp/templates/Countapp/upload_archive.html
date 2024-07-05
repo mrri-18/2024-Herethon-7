@@ -61,10 +61,8 @@
         
             if (preview.style.display === 'block' && descriptionValue !== '') {
                 document.getElementById('c_img').src = "{% static 'img/check_enabled.png' %}";
-                document.getElementById('c_link').href = "{% url 'homeapp:home' %}"; 
             } else {
                 document.getElementById('c_img').src = "{% static 'img/check_disabled.png' %}";
-                document.getElementById('c_link').href = ""; 
             }
         }function submitForm() {
             const preview = document.getElementById('preview');

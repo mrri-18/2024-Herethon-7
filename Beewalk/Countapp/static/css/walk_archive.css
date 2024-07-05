@@ -12,6 +12,12 @@ body {
         "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
+input[type="text"] {
+    border-width: 0;
+    width: 321px;
+    background-color: #f7f7f1;
+    height: 19px;
+}
 .question {
     width: 361px;
     height: 221px;
