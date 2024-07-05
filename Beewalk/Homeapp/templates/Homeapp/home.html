@@ -1,62 +1,220 @@
 <!-- homeapp/templates/homeapp/home.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>안녕하세요, {{ user.username }}님</h1>
-             {% if user.profile_img %}
-                <img src="{{ user.profile_img.url }}" alt="{{ user.username }}의 프로필 이미지" width="50">
-            {% else %}
-                <p>프로필 이미지가 없습니다.</p>
-            {% endif %}
-            <p>오늘도 함께 걸어볼까요?</p>
-            <a href="{% url 'profile:edit_profile' %}" >편집</a>
-        </header>
-        <form action="{% url 'countapp:index' %}" method="get">
-            <button class="walk-button" >Walk</button>
-        </form>
-        <section class="record-section">
-            <p>이번 달은 서울 한양도성({{ total_distance }}km)를 걸었어요!</p>
-        </section>
-        <section class="calendar-section">
-            <h2>{{ year }}.{{ month }}</h2>
-            <div class="calendar">
-            </div>
-        </section>
-        <section class="info-section">
-            <a href="{% url 'homeapp:exercise_info_list' %}" class="info-box">운동 정보</a>
-            <a href="{% url 'homeapp:walking_course_list' %}" class="info-box">걷기 좋은 코스 추천</a>
-        </section>
-          <section class="recommend-section">
-       <p>이 사용자는 어때요?</p>
-            <div class="recommend-box">
-                {% if random_user %}
-                     {% if random_user.profile_img %}
-                        <img src="{{ random_user.profile_img.url }}" alt="{{ random_user.username }}의 프로필 이미지" width="50">
-                    {% else %}
-                        <p>프로필 이미지가 없습니다.</p>
-                    {% endif %}
-                    <p>{{ random_user.username }}</p>
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form }}
-                        <input type="hidden" name="user_id" value="{{ random_user.id }}">
-                        <button type="submit" class="follow-button">Follow</button>
-                    </form>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+        <link
+            rel="stylesheet"
+            as="style"
+            crossorigin
+            href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"
+        />
+        <title>Beewalk</title>
+    </head>
+    <body>
+        <div class="profile">
+            <div class="pro_container">
+                {% if user.profile_img %}
+                <img src="{{ user.profile_img.url }}" class="pro_img" />
                 {% else %}
-                    <p>No users to recommend</p>
+                <p>프로필 이미지가 없습니다.</p>
                 {% endif %}
+                <a class="pro_setting" href="{% url 'profile:edit_profile' %}">편집</a>
+            </div>
+            <div class="pro_text">
+                <div>안녕하세요,</div>
+                <div>{{ user.username }}님</div>
+                <div>오늘도 함께 걸어볼까요?</div>
+            </div>
         </div>
-    </section>
-        <footer>
-            <!-- 하단 네비게이션 바 -->
-        </footer>
-    </div>
-</body>
+        <div class="walk">
+            <form action="{% url 'countapp:index' %}" method="get">
+                <img src="{% static 'img/walk_start.png' %}" id="walkStartImage" style="cursor: pointer" />
+                <button type="submit" class="walk-button" style="display: none"></button>
+            </form>
+        </div>
+        <div class="walk_check">
+            <div class="w_title">이번 달은 서울 한양도성( {{ total_distance }} km) 만큼 걸었어요!</div>
+            <div class="w_content">
+                <div class="w_progress" id="w_progressr" style="width: 0"></div>
+            </div>
+            <div class="w_text">
+                <p id="many_distance">
+                    다음 목표까지
+                    <!--m-->0 km
+                </p>
+                <p><!--물체-->월드컵대교(1.9km)</p>
+            </div>
+        </div>
+        <div class="calendar">
+            <div class="cal_mon">{{ year }}.{{ month }}</div>
+            <div class="cal_main">
+                <div class="cal_days">
+                    <div class="day">일</div>
+                    <div class="day">월</div>
+                    <div class="day">화</div>
+                    <div class="day">수</div>
+                    <div class="day">목</div>
+                    <div class="day">금</div>
+                    <div class="day">토</div>
+                </div>
+                <div class="cal_dates"></div>
+            </div>
+        </div>
+        <div class="info">
+            <div class="info_health">
+                <a href="{% url 'homeapp:exercise_info_list' %}"><img src="{% static 'img/info_health.png'%}" /></a>
+            </div>
+            <div class="info_walk">
+                <a href="{% url 'homeapp:walking_course_list' %}"><img src="{% static 'img/info_walk.png'%}" /></a>
+            </div>
+        </div>
+        <div class="user">
+            <div class="u_text">이 사용자는 어때요?</div>
+            <div class="u_container">
+                <div class="u_pro">
+                    {% if random_user %} {% if random_user.profile_img %}
+                    <img
+                        class="pro_img"
+                        src="{{ random_user.profile_img.url }}"
+                        alt="{{ random_user.username }}의 프로필 이미지"
+                    />
+                    {% else %}
+                    <p>프로필 이미지가 없습니다.</p>
+                    {% endif %}
+                    <p style="display: none">{{ random_user.username }}</p>
+                    <div class="u_name">{{ random_user.username }}</div>
+                </div>
+                <form method="post">
+                    {% csrf_token %} {{ form }}
+                    <input type="hidden" name="user_id" value="{{ random_user.id }}" />
+                    <button type="submit" class="u_follow">팔로우</button>
+                </form>
+                {% else %}
+                <p>No users to recommend</p>
+                {% endif %}
+            </div>
+        </div>
+    </body>
+    <script>
+        document.getElementById("walkStartImage").addEventListener("click", function () {
+            this.closest("form").submit();
+        });
+
+        const totalDistance = {{ total_distance }};
+
+        function fillProgressBar(distance) {
+            let progressBar = document.getElementById("w_progressr");
+            let maxWidth = document.querySelector(".w_content").clientWidth;
+            let width = (distance / 1900) * maxWidth;
+
+            width = Math.min(width, maxWidth);
+
+            progressBar.style.width = width + "px";
+        }
+
+        function updateRemainingDistance(distance) {
+            const nextGoalDistance = 1900; // 다음 목표까지의 거리 (미터)
+            let remainingDistance = nextGoalDistance - (distance * 1000); // totalDistance는 km 단위이므로 미터로 변환
+            remainingDistance = Math.max(remainingDistance, 0); // 남은 거리는 0보다 작을 수 없음
+
+            // 남은 거리 업데이트
+            const distanceElement = document.getElementById('many_distance');
+            distanceElement.innerHTML = `다음 목표까지 ${remainingDistance.toFixed(0)} m`;
+        }
+
+        // 페이지 로드 시 progressBar 채우기 및 남은 거리 업데이트
+        window.onload = function() {
+            fillProgressBar(totalDistance);
+            updateRemainingDistance(totalDistance);
+        };
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const followButton = document.querySelector(".u_follow");
+            let isFollowed = false;
+
+            followButton.addEventListener("click", function () {
+                if (isFollowed) {
+                    // 원상태로 복귀
+                    followButton.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                    followButton.style.color = "#b1b1b1";
+                    followButton.textContent = "팔로우";
+                } else {
+                    // 색상 변경
+                    followButton.style.backgroundColor = "#ffffff";
+                    followButton.style.color = "#000000";
+                    followButton.textContent = "팔로잉";
+                }
+                isFollowed = !isFollowed; // 상태 토글
+            });
+        });
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const calendar = document.querySelector(".calendar");
+            const calMon = calendar.querySelector(".cal_mon");
+            const calDates = calendar.querySelector(".cal_dates");
+
+            const today = new Date();
+            const currentMonth = today.getMonth();
+            const currentYear = today.getFullYear();
+            const currentDate = today.getDate();
+
+            const distanceData = {
+                1: 3,  // 1일의 거리 데이터
+                5: 7,  // 5일의 거리 데이터
+                // 식으로 추가...
+            };
+
+            function renderCalendar(month, year) {
+                calDates.innerHTML = "";
+
+                calMon.innerText = `${year}.${String(month + 1).padStart(2, "0")}`;
+
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                for (let i = 0; i < firstDay; i++) {
+                    const emptyCell = document.createElement("div");
+                    emptyCell.classList.add("date");
+                    calDates.appendChild(emptyCell);
+                }
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dateCell = document.createElement("div");
+                    dateCell.classList.add("date");
+                    dateCell.innerText = day;
+
+                    calDates.appendChild(dateCell);
+                }
+            }
+            renderCalendar(currentMonth, currentYear);
+
+            function applyDistanceStyles(distanceData) {
+                const dateCells = calDates.querySelectorAll(".date");
+
+                dateCells.forEach(dateCell => {
+                    const day = parseInt(dateCell.innerText, 10);
+                    const distance = distanceData[day] || 0;
+
+                    if (day === currentDate) {
+                        dateCell.classList.add("today");
+                    }
+
+                    if (distance < 5) {
+                        dateCell.classList.add("polygon1");
+                    } else if (distance >= 5 && distance < 10) {
+                        dateCell.classList.add("polygon2");
+                    } else {
+                        dateCell.classList.add("polygon3");
+                    }
+                });
+            }
+            applyDistanceStyles(distanceData);
+        });
+    </script>
 </html>

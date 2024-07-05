@@ -7,10 +7,9 @@ body {
     align-items: center;
     flex-direction: column;
     background-color: black;
-    font-family: "Pretendard Variable", Pretendard, -apple-system,
-        BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
-        "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
-        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+        "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
 .date.today.polygon1 {
@@ -102,11 +101,7 @@ body {
     flex-direction: column;
     margin: 0 16px;
     padding: 20px;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.3),
-        rgba(153, 153, 153, 0.3)
-    );
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(153, 153, 153, 0.3));
     border: 1px solid #bebdbb;
     border-radius: 20px;
     box-sizing: border-box;
@@ -135,7 +130,7 @@ body {
     border-radius: 20px;
     top: 0;
     left: 0;
-    transition: width 1s ease; /* width 변경 시 애니메이션 효과 */
+    transition: width 1s ease;
 }
 
 .w_text {
@@ -232,11 +227,7 @@ p {
     flex-direction: column;
     margin: 0 16px 125px 16px;
     padding: 20px;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.3),
-        rgba(153, 153, 153, 0.3)
-    );
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(153, 153, 153, 0.3));
     border: 1px solid #bebdbb;
     border-radius: 20px;
     box-sizing: border-box;
@@ -267,9 +258,9 @@ p {
 }
 
 .u_follow {
-    width: 42px;
-    height: 19px;
-    padding: 10px 27.5px;
+    width: 97px;
+    height: 39px;
+    padding: 10px 15px;
     color: #b1b1b1;
     background-color: rgba(255, 255, 255, 0.1);
     font-size: 16px;
@@ -281,9 +272,14 @@ p {
     justify-content: center;
 }
 
-.line {
+.navigation {
+    height: 6rem;
     position: fixed;
-    top: 751px;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
+.line {
     background-color: #606060;
     width: 393px;
     height: 1px;
@@ -291,9 +287,7 @@ p {
 
 .nav {
     width: 393px;
-    height: 100%;
-    position: fixed;
-    top: 752px;
+    height: 92px;
     background-color: #000000;
     display: flex;
     flex-direction: row;
