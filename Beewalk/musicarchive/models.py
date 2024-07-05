@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 # from django.db import models
 # from django.conf import settings
 # from Accountapp.models import Member
@@ -15,4 +12,3 @@
 
 #     def __str__(self):
 #         return self.title
->>>>>>> 2588f55 (메인)
