@@ -4,7 +4,7 @@ from Accountapp.models import Member
 class MemberUpdateForm(forms.ModelForm):
     class Meta:
         model = Member
-        fields = ['username', 'email', 'profile_img']
+        fields = ['profile_img','username', 'email']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),

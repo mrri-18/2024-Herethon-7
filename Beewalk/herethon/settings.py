@@ -46,8 +46,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+<<<<<<< HEAD
 ALLOWED_HOSTS = ['*', '0.0.0.0','127.0.0.1', '192.168.0.121','192.168.45.125','192.168.219.104','192.168.45.92']
 CSRF_TRUSTED_ORIGINS = ['https://192.168.0.121:8000','https://192.168.45.125:8000','https://192.168.45.92:8000']
+=======
+ALLOWED_HOSTS = ['*', '0.0.0.0','127.0.0.1', '192.168.0.121','192.168.45.1','192.168.219.104','192.168.1.178']
+CSRF_TRUSTED_ORIGINS = ['https://192.168.0.121:8000','https://192.168.45.1:8000']
+>>>>>>> 0dfe267dab332342be741a4a5603884097466c2c
 
 # Application definition
 
