@@ -29,5 +29,7 @@ urlpatterns = [
     path('count/', include('Countapp.urls')),
     path('account/', include('Accountapp.urls')),
     path('history/',include('Historyapp.urls')),
-    path('profile/',include('profiles.urls'))
+    path('profile/',include('profiles.urls')),
+    path('musicarchive/',include('musicarchive.urls')),
+    path('community/',include('Community.urls'))
 ]

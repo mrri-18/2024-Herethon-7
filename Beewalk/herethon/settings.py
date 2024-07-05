@@ -46,8 +46,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+<<<<<<< HEAD
+ALLOWED_HOSTS = ['*', '0.0.0.0','127.0.0.1', '192.168.0.121','192.168.45.125','192.168.219.104','192.168.45.92']
+CSRF_TRUSTED_ORIGINS = ['https://192.168.0.121:8000','https://192.168.45.125:8000','https://192.168.45.92:8000']
+=======
 ALLOWED_HOSTS = ['*', '0.0.0.0','127.0.0.1', '192.168.0.121','192.168.45.1','192.168.219.104','192.168.1.178']
 CSRF_TRUSTED_ORIGINS = ['https://192.168.0.121:8000','https://192.168.45.1:8000']
+>>>>>>> 0dfe267dab332342be741a4a5603884097466c2c
 
 # Application definition
 
@@ -66,7 +71,9 @@ INSTALLED_APPS = [
     'Homeapp',
     'sslserver',
     'profiles',
-    'Historyapp'
+    'Historyapp',
+    'musicarchive',
+    'Community',
 ]
 AUTH_USER_MODEL = 'Accountapp.Member'
 AUTHENTICATION_BACKENDS = [
@@ -89,7 +96,7 @@ ROOT_URLCONF = 'herethon.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -150,13 +157,13 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_REDIRECT_URL = reverse_lazy('Homeapp:home')
+LOGIN_REDIRECT_URL = reverse_lazy('countapp:index')
 
 # 로그인 URL
 LOGIN_URL = 'accountapp:login'

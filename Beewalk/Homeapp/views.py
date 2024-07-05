@@ -13,6 +13,7 @@ from .forms import FollowForm
 @login_required
 def home(request):
     user = request.user
+    print(user.profile_img)
     end_date = datetime.now()
 
     # 현재 날짜를 기준으로 해당 달의 첫째 날을 계산합니다.
@@ -50,8 +51,7 @@ def home(request):
             Follow.objects.get_or_create(follower=user, following=user_to_follow)
             return redirect('homeapp:home')
     else:
-        initial_data = {'user_id': random_user.id if random_user else ''}
-        form = FollowForm(initial=initial_data)
+        form = FollowForm()
 
     context = {
         'user': user,

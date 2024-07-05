@@ -93,7 +93,7 @@
                     <div class="u_name">{{ random_user.username }}</div>
                 </div>
                 <form method="post">
-                    {% csrf_token %} {{ form.user_id }}
+                    {% csrf_token %} {{ form }}
                     <input type="hidden" name="user_id" value="{{ random_user.id }}" />
                     <button type="submit" class="u_follow">팔로우</button>
                 </form>
@@ -216,6 +216,8 @@
                     dateCell.classList.add("date");
                     dateCell.innerText = day;
 
+<<<<<<< HEAD
+=======
                     if (day === currentDate) {
                         dateCell.classList.add("today");
                     }
@@ -230,10 +232,10 @@
                         }
                     }
 
+>>>>>>> 0dfe267dab332342be741a4a5603884097466c2c
                     calDates.appendChild(dateCell);
                 }
             }
-
             renderCalendar(currentMonth, currentYear);
         });
     </script>
