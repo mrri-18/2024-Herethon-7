@@ -24,7 +24,6 @@
                     onclick="document.getElementById('profile').click();"
                     style="cursor: pointer"
                 />
-                <input type="file" id="profile" style="display: none" onchange="previewImage(event)" />
                 <img id="photo_img" src="" />
             </div>
 
@@ -33,7 +32,8 @@
                     <p>{{ form.email.label }}</p>
                     <p id="email_check_success"></p>
                 </div>
-                <div class="email_input">{{ form.email }}</div>
+                <div class="email_input">
+                    {{ form.email }}</div>
             </div>
 
             <div class="password">
@@ -50,7 +50,8 @@
                     <p>{{ form.username.label }}</p>
                     <p id="username_check_success"></p>
                 </div>
-                <div class="username_input">{{ form.username }}</div>
+                <div class="username_input">
+                    {{ form.username }}</div>
             </div>
 
             <button type="submit" id="submit_button">회원가입 하기</button>

@@ -20,7 +20,10 @@ def signup(request):
                 user = form.save(commit=False)
                 user.password = make_password(password)
                 user.save()
+                print("회원가입 성공!!!!")
                 return redirect('accountapp:login')
+        else:
+            print(form.errors)  # 폼 에러 메시지 출력
     else:
         form = SignUpForm()
 

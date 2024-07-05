@@ -93,7 +93,8 @@
                     <div class="u_name">{{ random_user.username }}</div>
                 </div>
                 <form method="post">
-                    {% csrf_token %} {{ form }}
+                     {% csrf_token %}
+                    {{ form.user_id }}
                     <input type="hidden" name="user_id" value="{{ random_user.id }}" />
                     <button type="submit" class="u_follow">팔로우</button>
                 </form>
