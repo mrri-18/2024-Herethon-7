@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}Community Home{% endblock %}
+
+{% block content %}
+<div class="profile">
+    <img src="{{ user.profile_img.url }}" alt="Profile Picture">
+    <h2>{{ user.username }}</h2>
+    <p>Followers: <a href="{% url 'community:follower_list' %}">{{ followers_count }}</a></p>
+    <p>Following: <a href="{% url 'community:following_list' %}">{{ following_count }}</a></p>
+</div>
+<hr>
+{% if all_certifications %}
+    <div class="archive-list">
+        {% for certification in all_certifications %}
+            <div class="archive">
+                {% if certification.walk_image %}
+                    <img src="{{ certification.walk_image.url }}" alt="Archive Image">
+                {% else %}
+                    <img src="{% static 'default_image.PNG' %}" alt="Default Image">
+                {% endif %}
+                <p>{{ certification.description }}</p>
+                <p>By {{ certification.user.username }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No archives available.</p>
+{% endif %}
+{% endblock %}

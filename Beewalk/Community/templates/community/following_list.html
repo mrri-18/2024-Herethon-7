@@ -1,0 +1,11 @@
+<!-- community/templates/community/following_list.html -->
+{% extends 'base.html' %}
+{% block title %}Following{% endblock %}
+{% block content %}
+<h2>Following</h2>
+<ul>
+    {% for follow in following %}
+        <li>{{ follow.following.username }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
