@@ -8,6 +8,11 @@ class CertificationForm(forms.ModelForm):
         fields = ['walk_image']  # 업로드할 필드 지정
 
 class ArchiveForm(forms.ModelForm):
+    description = forms.CharField(
+        max_length=14,
+        widget=forms.TextInput(attrs={'placeholder': '내용을 입력해주세요. (14자 이내)'}),
+        help_text='14자 이내로 작성해주세요.'
+    )
     class Meta:
         model = Certification
         fields = ['archive_image', 'description']  # 업로드할 필드 지정

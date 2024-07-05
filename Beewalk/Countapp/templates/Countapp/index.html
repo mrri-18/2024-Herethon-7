@@ -34,20 +34,44 @@
             <img src="{% static 'img/stop.png'%}" onclick="toggleTracking()" id="trackImage">
                 <button id="trackButton" style="display:none"></button>
             </img>
-   
-    {% if record_id %}
+        {% if record_id %}
         <!-- 숨겨진 폼: Stop Tracking 버튼을 눌렀을 때 사용 -->
-        <form id="walkForm" action="{% url 'countapp:upload_walk_certification' record_id %}" method="get" style="display: none;">
-        </form>
-        <img src="{% static 'img/done.png'%}" onclick="completeWalking()" style="margin-left:10px">
-            <button style="display:none"></button>
-        </img>
-       
-    {% else %}
-        <p>기록이 없습니다. 기록을 추가해주세요.</p>
-        <button onclick="alert('기록이 없습니다. 기록을 추가해주세요.');" disabled>걷기 완료</button>
-    {% endif %}
-</div>
+            <form id="walkForm" action="{% url 'countapp:upload_walk_certification' record_id %}" method="get" style="display: none;">
+            </form>
+            <img src="{% static 'img/done.png'%}" onclick="completeWalking()" style="margin-left:10px">
+                <button style="display:none"></button>
+            </img>
+        {% else %}
+            <p>기록이 없습니다. 기록을 추가해주세요.</p>
+            <button onclick="alert('기록이 없습니다. 기록을 추가해주세요.');" disabled>걷기 완료</button>
+        {% endif %}
+    </div>
+
+    <div class="navigation">
+        <div class="line"></div>
+        <div class="nav">
+            <div class="home">
+                <a href="{% url 'homeapp:home' %}"><img src="{% static 'img/home_pressed.png'%}" />
+                    <p class="nav_text">홈</p>
+                </a>
+            </div>
+            <div class="history">
+                <a href="{% url 'Historyapp:record_list' %}"><img src="{% static 'img/history.png'%}" />
+                    <p class="nav_text">히스토리</p>
+                </a>
+            </div>
+            <div class="archive">
+                <a href="{% url 'homeapp:home' %}"><img src="{% static 'img/archive.png'%}" />
+                    <p class="nav_text">아카이브</p>
+                </a>
+            </div>
+            <div class="comunity">
+                <a href="{% url 'homeapp:home' %}"><img src="{% static 'img/community.png'%}" />
+                    <p class="nav_text">커뮤니티</p>
+                </a>
+            </div>
+        </div>
+    </div>
 </body>
     <script>
         let startTime = null;
@@ -56,7 +80,7 @@
         let distance = 0;
         let tracking = false;
         let intervalID = null;
-           window.onload = function() {
+            window.onload = function() {
             startTracking();
         };
         async function startTracking() {
@@ -103,16 +127,18 @@
         }
 
         function toggleTracking() {
-            if (tracking) {
-                pauseTracking();
-                document.getElementById('trackButton').innerText = 'Start Tracking';
-            } else {
-                startTracking();
-                document.getElementById('trackButton').innerText = 'Pause Tracking';
-            }
+            const trackImage = document.getElementById('trackImage');
+
+        if (tracking) {
+            pauseTracking();
+            trackImage.src = '{% static 'img/start.png' %}';
+        } else {
+            startTracking();
+            trackImage.src = '{% static 'img/stop.png' %}';
+        }
         }
 
-         function sleep(ms) {
+        function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 

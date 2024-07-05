@@ -34,6 +34,7 @@ def home(request):
     # 선택한 월의 기록을 필터링
     records1 = Record.objects.filter(user=user, create_at__range=(start1_date, end1_date))
     records_by_date = {}
+    random_user=None
     for record in records1:
         date = record.create_at.date().day
         if date not in records_by_date:
