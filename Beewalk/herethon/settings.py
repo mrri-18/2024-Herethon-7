@@ -46,8 +46,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '0.0.0.0','127.0.0.1', '192.168.0.121','192.168.45.1']
-CSRF_TRUSTED_ORIGINS = ['https://127.0.0.1:8000','https://192.168.0.121:8000','https://192.168.45.1:8000']
+ALLOWED_HOSTS = ['*', '0.0.0.0','127.0.0.1', '192.168.0.121','192.168.45.1','192.168.219.104']
+CSRF_TRUSTED_ORIGINS = ['https://192.168.0.121:8000','https://192.168.45.1:8000']
 
 # Application definition
 
@@ -156,7 +156,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_REDIRECT_URL = reverse_lazy('countapp:index')
+LOGIN_REDIRECT_URL = reverse_lazy('Homeapp:home')
 
 # 로그인 URL
 LOGIN_URL = 'accountapp:login'
@@ -178,4 +178,4 @@ SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_HOST = 'Beewalk.com'
 
-#python manage.py runserver_plus 0.0.0.0:8000 --cert-file "C:\Program Files\OpenSSL-Win64\bin\cert.pem" --key-file "C:\Program Files\OpenSSL-Win64\bin\key.pem"
+# python manage.py runserver_plus 0.0.0.0:8000 --cert-file "C:\Program Files\OpenSSL-Win64\bin\cert.pem" --key-file "C:\Program Files\OpenSSL-Win64\bin\key.pem"

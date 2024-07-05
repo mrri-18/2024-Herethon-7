@@ -4,24 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Walking Course</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/info_walkList.css' %}">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+    <title>Beewalk</title>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>걷기 좋은 코스 추천</h1>
-        </header>
-        <section class="walking-course-section">
-            <ul>
-                {% for course in courses %}
-                    <li>
-                          <a href="{% url 'homeapp:walking_course_detail' course.pk %}">
-                            <h2>{{ course.title }}</h2>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </section>
+    <div class="back">
+        <a id="back" href="{% url 'homeapp:home'%}"><img src="{% static 'img/back.png' %}"/></a>
     </div>
+    <div class="main_title">📄 운동 정보</div>
+        <ul class="list">
+            {% for course in courses %}
+                <li class="listitem">
+                    <div class="content">
+                        <div id="text">{{ course.title }}</div>
+                    </div>
+                    <div class="move">
+                        <a id="move" href="{% url 'homeapp:walking_course_detail' course.pk %}">
+                            <img src="{% static 'img/move.png' %}"/>
+                        </a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
 </body>
 </html>

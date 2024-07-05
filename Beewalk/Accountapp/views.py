@@ -10,7 +10,7 @@ from .forms import SignUpForm, LoginForm
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST, request.FILES)
-        checkpwd = request.POST.get('password_check')
+        checkpwd = request.POST.get('checkpwd')
 
         if form.is_valid():
             password = form.cleaned_data.get('password')
@@ -20,7 +20,10 @@ def signup(request):
                 user = form.save(commit=False)
                 user.password = make_password(password)
                 user.save()
+                print("회원가입 성공!!!!")
                 return redirect('accountapp:login')
+        else:
+            print(form.errors)  # 폼 에러 메시지 출력
     else:
         form = SignUpForm()
 

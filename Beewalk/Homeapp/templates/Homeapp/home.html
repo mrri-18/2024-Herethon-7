@@ -43,12 +43,10 @@
                         <p>프로필 이미지가 없습니다.</p>
                     {% endif %}
                     <p>{{ random_user.username }}</p>
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form }}
-                        <input type="hidden" name="user_id" value="{{ random_user.id }}">
-                        <button type="submit" class="follow-button">Follow</button>
-                    </form>
+                    <form method="post" action="{% url 'homeapp:home' %}">
+    {% csrf_token %}
+    {{ form.user_id }}
+    <button type="submit">Follow</button>
                 {% else %}
                     <p>No users to recommend</p>
                 {% endif %}

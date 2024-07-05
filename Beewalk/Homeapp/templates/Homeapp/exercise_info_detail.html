@@ -2,15 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ info.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/info_health.css' %}">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+    <title>Beewalk</title>
 </head>
 <body>
-    <h1>{{ info.title }}</h1>
+    <div class="back">
+        <a id="back" href="{% url 'homeapp:exercise_info_list' %}"><img src="{% static 'img/back.png' %}"/></a>
+    </div>
+    <div class="title">{{ info.title }}</div>
+    <div class="date">{{ info.created_at|date:"Y.m.d" }}</div>
     {% if info.image %}
-        <img src="{{ info.image.url }}" alt="{{ info.title }}">
+    <div class="img"><img src="{{ info.image.url }}" alt="{{ info.title }}" /></div>
     {% endif %}
-    <p>{{ info.created_at }}</p>
-    <div>{{ info.content }}</div>
-    <a href="{% url 'homeapp:exercise_info_list' %}">Back to list</a>
+    <div class="content">{{ info.content }}</div>
+    <div class="navigation">
+    <div class="line"></div>
+        <div class="nav">
+            <div class="home">
+                <a href="{% url 'homeapp:home'%}"
+                    ><img src="{% static 'img/home_pressed.png'%}" />
+                    <p class="nav_text">홈</p>
+                </a>
+            </div>
+            <div class="history">
+                <a href="{% url 'homeapp:home'%}"
+                    ><img src="{% static 'img/history.png'%}" />
+                    <p class="nav_text">히스토리</p>
+                </a>
+            </div>
+            <div class="archive">
+                <a href="{% url 'homeapp:home'%}"
+                    ><img src="{% static 'img/archive.png'%}" />
+                    <p class="nav_text">아카이브</p>
+                </a>
+            </div>
+            <div class="comunity">
+                <a href="{% url 'homeapp:home'%}"
+                    ><img src="{% static 'img/community.png'%}" />
+                    <p class="nav_text">커뮤니티</p>
+                </a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

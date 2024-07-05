@@ -9,7 +9,7 @@
     <title>Beewalk</title>
 </head>
 <body>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data" id="loginForm">
         {% csrf_token %}
         {{ form.email.errors }}
         <p>{{ form.email.label }}</p>
@@ -19,11 +19,12 @@
         <p>{{ form.password.label }}</p>
         {{ form.password }}
         <br>
-        <button type="submit">로그인</button>
+        <button type="submit" id="submit_button">로그인</button>
     </form>
+    <div id="login_error"></div>
 
     <div class="line"></div>
     <a href="{% url 'accountapp:signup' %}">회원가입</a>
+
 </body>
-<script src="{% static 'js/login.js'%}"></script>
 </html>

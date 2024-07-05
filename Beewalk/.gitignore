@@ -4,3 +4,6 @@
 # Optionally, ignore any other files with sensitive information
 config/secrets.json
 certs/*
+
+myvenv/*
+

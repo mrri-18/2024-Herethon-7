@@ -1,26 +1,54 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Walking Distance Tracker</title>
-    <meta name="csrf-token" content="{{ csrf_token }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/walk.css' %}">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+    <title>Beewalk</title>
 </head>
 <body>
-    <h1>오늘의 나다움 질문</h1>
-    <p>선호하는 음악 장르는 무엇인가요?</p>
-    <p id="distance">Distance: 0 m</p>
-    <p id="elapsedTime">Elapsed Time: 0 s</p>
-    <button id="trackButton" onclick="toggleTracking()">Start Tracking</button>
-
+    <div class="question">
+        <div class="title">오늘의 나다움 질문</div>
+        <div class="q_content">
+            <!--질문-->선호하는 음악 장르는 무엇인가요?
+        </div>
+    </div>
+    <div class="timer">
+        <div class="title">스톱워치</div>
+        <div class="t_content" id="elapsedTime" style="font-size:48px">00:00:00</div>
+    </div>
+    <div class="walk">
+        <div class="title" id="distance">부르즈칼리파( 0 m)만큼 걸었어요</div>
+        <div class="w_content">
+            <div class="w_progress" id="w_progressr" style="width: 0"></div>
+        </div>
+        <div class="w_text">
+            <p id="many_distance">다음 목표까지 0 m </p>
+            <p id="landmark"><!--물체-->부르즈칼리파(828m)</p>
+        </div>
+    </div>
+    <div class="button">
+            <img src="{% static 'img/stop.png'%}" onclick="toggleTracking()" id="trackImage">
+                <button id="trackButton" style="display:none"></button>
+            </img>
+   
     {% if record_id %}
         <!-- 숨겨진 폼: Stop Tracking 버튼을 눌렀을 때 사용 -->
         <form id="walkForm" action="{% url 'countapp:upload_walk_certification' record_id %}" method="get" style="display: none;">
         </form>
-        <button onclick="completeWalking()">걷기 완료</button>
+        <img src="{% static 'img/done.png'%}" onclick="completeWalking()" style="margin-left:10px">
+            <button style="display:none"></button>
+        </img>
+       
     {% else %}
         <p>기록이 없습니다. 기록을 추가해주세요.</p>
         <button onclick="alert('기록이 없습니다. 기록을 추가해주세요.');" disabled>걷기 완료</button>
     {% endif %}
-
+</div>
+</body>
     <script>
         let startTime = null;
         let totalElapsedTime = 0;
@@ -83,6 +111,7 @@
                 document.getElementById('trackButton').innerText = 'Pause Tracking';
             }
         }
+
          function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
@@ -115,7 +144,9 @@
                 const speed = delta / timeElapsed;
                 distance += speed * timeElapsed / 1000;
 
-                document.getElementById('distance').innerText = `Distance: ${distance.toFixed(2)} m`;
+                document.getElementById('distance').innerText = `부르즈칼리파 (${distance.toFixed(2)} m) 만큼 걸었어요`;
+                document.getElementById('many_distance').innerText = `다음 목표까지 ${(828 - distance).toFixed(2)} m`;
+                fillProgressBar(distance);
 
                 lastAcceleration = {
                     x: acceleration.x,
@@ -125,12 +156,29 @@
             }
         }
 
+        function fillProgressBar(distance) {
+            let progressBar = document.getElementById("w_progressr");
+            let maxWidth = document.querySelector(".w_content").clientWidth; 
+            let width = (distance / 828) * maxWidth; 
+
+            width = Math.min(width, maxWidth);
+
+            progressBar.style.width = width + "px";
+        }
+
         function updateTime() {
             if (tracking) {
                 const currentTime = new Date().getTime();
                 const elapsedTime = totalElapsedTime + (currentTime - startTime);
-                document.getElementById('elapsedTime').innerText = `Elapsed Time: ${(elapsedTime / 1000).toFixed(0)} s`;
-                console.log(`Elapsed Time: ${(elapsedTime / 1000).toFixed(0)} s`);
+        
+                const hours = Math.floor(elapsedTime / 3600000);
+                const minutes = Math.floor((elapsedTime % 3600000) / 60000);
+                const seconds = Math.floor((elapsedTime % 60000) / 1000);
+
+                const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        
+                document.getElementById('elapsedTime').innerText = formattedTime;
+                console.log(`Elapsed Time: ${formattedTime}`);
             }
         }
 
@@ -179,6 +227,10 @@
             }
             return cookieValue;
         }
+
     </script>
-</body>
+
 </html>
+
+
+

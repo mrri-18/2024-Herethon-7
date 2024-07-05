@@ -18,7 +18,7 @@ class WalkDataViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Record.objects.filter(user=self.request.user)
 
-@login_required
+#@login_required
 def index(request):
     user = request.user
     late_record = Record.objects.all().order_by('-create_at').first()
@@ -64,7 +64,7 @@ def upload_walk_certification(request,record_id):
         'minutes': minutes,
         'seconds': seconds,
     })
-@login_required
+#@login_required
 def upload_archive(request, record_id):
     record = get_object_or_404(Record, pk=record_id)
     if request.method == 'POST':
